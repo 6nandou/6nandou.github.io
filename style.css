@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    line-height: 1;
+    user-select:none;
+}
+
+#mute-button {
+    background-color: #4CAF50; /* color de fondo */
+    border: none; /* sin borde */
+    color: white; /* color de texto */
+    padding: 15px 32px; /* tamaño de padding */
+    text-align: center; /* centrado de texto */
+    text-decoration: none; /* sin decoración de texto */
+    display: inline-block; /* como elemento de bloque */
+    font-size: 16px; /* tamaño de fuente */
+    margin: 4px 2px; /* margen */
+    cursor: pointer; /* cursor de puntero */
+  }
+
+  #mute-button.muted {
+    background-color: #f44336; /* color de fondo */
+  }

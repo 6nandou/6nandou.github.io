@@ -1,36 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✧.˖˳ MonMetal ₊ *</title>
-    <link rel="icon" href="./assets/guitar-icon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./style.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>✧.˖˳ MonMetal ₊ *</title>
+        <link rel="icon" href="assets/images/guitar-icon.png">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="style.css">
+    
+        <meta property="og:type" content="WebSite">
+        <meta property="og:url" content="https://MonMetal.github.io/">
+        <meta property="og:title" content="MonMetal WebSite v1.2">
+        <meta property="og:description" content="MonMetal">
+        <meta property="og:image" content="">
+        <meta name="google-site-verification" content="At0uRCSk1-MyRSCSoRjObSmPAvIdKySOmM26OvhFi8E" />
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://MonMetal.github.io/">
-    <meta property="og:title" content="MonMetal WebSite v1.1">
-    <meta property="og:description" content="Portafolio | MonMetal">
-    <meta property="og:image" content="https://repository-images.githubusercontent.com/613105443/bdc1bb09-7290-450e-b9df-798f1c54abc3">
-
-</head>
-<body><div id="wrapper"><div id="main"><div class="inner"><div id="container01" class="container columns"><div class="wrapper"><div class="inner"><div>
-    <div id="image01" class="image">
-        <span style="border-radius: 1000px;" class="frame">
-            <img src="./assets/noodle-icon.png" alt="">
-        </span>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    </head>
+    <body>
+        <div id="root">
+          <header class="navbar">
+            <div class="container">
+                <a class="nav-logo" href="/">MonMetal WebSite</a>
+                <nav class="header-nav">
+                        <ul><div class="container">
+                          <a class="icon-XD bi bi-github" href="https://github.com/MonMetal" target="_blank"></a>
+                        </div></ul>
+                </nav>
+            </div>
+               </header>
+           <div id="BG" class="main-section" style="background-image: url(&quot;/assets/images/Sunset.png&quot;);">
+            <h1>MonMetal</h1>
+            <div class="buttons-group1">
+             
+                <a href="https://www.instagram.com/furryymon/" class="button-text bi bi-instagram" target="_blank" style="width: 40px;"></a>
+                <a href="https://www.youtube.com/channel/UCc2W59GaCmxHvVBKbYQgVqA" class="button-text bi bi-youtube" target="_blank" style="width: 40px;"></a>
+                <a href="https://www.tiktok.com/@furrymonmetal" class="button-text bi bi-tiktok" target="_blank" style="width: 40px;"></a>
+          
+            </div>
+            <div class="bi bi-caret-down arrow"></div>
+        </div>
+        <main class="home-show-sections">
+            <div class="container">
+                <section class="home-show-section inverted">
+                    <!-- TESTING-->
+                    <!-- TESTING-->
+                </section>
+        </main>
     </div>
-</div>
-<div>
-    <h2 id="text05">₊⌒๑ ︶꒷꒦</h2>
-    <h1 id="text02">Mon <em>¡!</em></h1><br>
-    <p id="text04"><span>Joola!, Soy Mon un Programador medianamente novato el cual desea ser un Desarrollador de VideoJuegos.</span></p><br><h3 id="text01">Donde encontrarme:</h3>
-    <br>
-    <a class="bi bi-github icono-tamaño" href="https://github.com/MonMetal" target="_blank"></a>
-    <a class="bi bi-youtube icono-tamaño" href="https://youtube.com/@zMon!_" target="_blank"></a>
-    <a class="bi bi-instagram icono-tamaño" href="https://instagram.com/furryymon" target="_blank"></a>
-    <a class="bi bi-twitch icono-tamaño" href="https://twitch.tv/MonMetal" target="_blank"></a>
-    <a class="bi bi-tiktok icono-tamaño" href="https://tiktok.com/@furrymoonx77" target="_blank"></a>
-</body>
+    </body>
+    <script>
+        const backgrounds = [
+            'assets/images/Pink.png',
+             'assets/images/Daytime.png',
+              'assets/images/Sunset.png',
+               'assets/images/Night.png'
+            ]
+
+        let currentIndex = 0;
+
+        function changeBackground() {
+        
+        const Backgr =  document.getElementById('BG');
+        Backgr.style.backgroundImage = `url('${backgrounds[currentIndex]}')`;
+        currentIndex = (currentIndex + 1) % backgrounds.length;
+      }
+
+      changeBackground();
+      setInterval(changeBackground, 30000);
+    </script>
+</html>

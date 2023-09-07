@@ -1,0 +1,155 @@
+@font-face{font-family:"Minecraft";src:url(assets/Minecraft.ttf)}
+@import url('https://fonts.googleapis.com/css2?family=Kanit&family=Roboto:ital@1&display=swap');
+
+#root, body {
+    display: flex;
+    flex-direction: column;
+    background-image: url(./assets/images/gyro.png);
+    background-repeat: no-repeat;
+    user-select: none;
+}
+
+h1 {
+    padding: 1rem 0;
+    font-family: "Minecraft";
+    color: #fff;
+    text-shadow: 0 2.5px 0 #000;
+    word-spacing: 5px;
+    font-size: 4.5rem;
+    line-height: 1.5rem;
+    width: 85%;
+    font-weight: 90;
+    font-style: normal;
+    user-select: none;
+    padding-left: 565px;
+}
+
+h3 {
+  padding-top: 10px;
+  font-family: "Minecraft";
+  color: #fff;
+  text-shadow: 0 2.5px 0 #000;
+  word-spacing: 5px;
+  font-size: 1rem;
+  font-weight: 90;
+  font-style: normal;
+  user-select: none;
+  padding-left: 565px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+  background: linear-gradient(90deg, rgba(255,187,92,1) 0%, rgba(255,155,80,1) 30%, rgba(226,94,62,1) 60%, rgba(198,61,47,1) 100%);
+ }
+
+.navbar {
+    background: #262626;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    z-index: 100;
+    padding-top: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.4666666666666667);
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.nav-logo {
+    width: -webkit-max-content;
+    width: max-content;
+    height: 40px;
+    color: #fff;
+    text-decoration: none;
+    font-family: "Minecraft";
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    text-anchor: start;
+    place-content: center;
+    font-size: 1.1rem;
+    place-items: center;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.navbar .header-nav {
+    height: 100%;
+}
+
+nav {
+    display: block;
+}
+
+.main-section {
+    position: relative;
+    background: #000000 url(assets/images/Daytime.png);
+    background-color: rgba(0, 0, 0, 0.336);
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+    text-align: center;
+}
+
+.icon-XD {
+    color: white;
+    text-decoration:none;
+    display:block;
+    cursor:pointer;
+    user-select:none;
+    font-size: 32px;
+    padding:.9rem .9rem;
+}
+
+.buttons-group1 {
+  padding-top: 50px;
+  padding-left: 565px;
+}
+
+.myButton {
+	background-color:#e33f3f;
+	border-radius:15px;
+	border:1px solid #ffffff9f;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Minecraft;
+	font-size:16px;
+	text-decoration:none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  padding: 15px;
+}
+
+.myButton:hover {
+  background-color: #ffffff67;
+  transform: scale(1.1);
+}
+
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+        

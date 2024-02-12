@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAMARON</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="icon" href="assets/wbicon.png">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="cuadro-blanco">
+        <div class="sobremi-container">
+            <h2 class="kamaront">> KAMARON</h2>
+            <br>
+            <p class="pl"><b>"Programador multifacético con una pasión por la tecnología y una profunda fascinación por la música y los juegos independientes."</b></p>
+            <br>
+            <p class="pl"><b>Al día con One Piece, actualmente leyendo: "Gachiakuta" y esperando alguna novedad de Hollow Knight: SilkSong</b></p>
+        </div>
+
+        <img src="assets/icon.png" class="imagen-esquina"></img>
+
+        <div class="gustos-container">
+
+            <h2>> GUSTOS</h2>
+            <br>
+            <p><b>Me gusta mucho escuchar Musica, ver anime, leer manga, programar Bots y jugar Valorant.</b></p>
+            <br>
+            <p><b>★ Mi color Favorito es el Morado.</b></p>
+            <br>
+            <p><b>★ Mi cancion Favorita es:</b><a style="text-decoration: none;" href="https://www.youtube.com/watch?v=UboDru6WXS8" target="_blank"> AL BORDE - MILO J</a></p>
+            <br>
+            <p><b>★ Peliculas favoritas: Donnie Darko y Pulp Fiction.</b></p>
+        </div>
+        
+        <h2 class="redes">> REDES</h2>
+        <div class="icons-container">
+                <a class="bi bi-spotify icons" href="https://open.spotify.com/playlist/7aa6EnDVW5vDrVeYBRF43C?si=f6e2c4a9f0d24924"></a>
+                <a class="bi bi-discord icons" href="https://discord.gg/VpCFCJMbru"></a>
+                <a class="bi bi-instagram icons" href="https://www.instagram.com/kkaamaron/"></a>
+                <a class="bi bi-steam icons" href="https://steamcommunity.com/profiles/76561199171521484/"></a>
+                <a class="bi bi-tiktok icons" href="https://www.tiktok.com/@camar_on"></a>
+                <a class="bi bi-github icons" href="https://github.com/Camar-on"></a>
+                <a class="bi bi-twitch icons" href="https://www.twitch.tv/kaamaron"></a>
+        </div>
+    </div>
+
+    <script>
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var columns = []
+        for (i = 0; i < 256; columns[i++] = 1);
+
+        function step() {
+            canvas.getContext('2d').fillStyle = 'rgba(255, 255, 255, 0.05)';
+            canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
+
+            canvas.getContext('2d').fillStyle = '#000';
+            columns.map(function (value, index) {
+                var character = String.fromCharCode(3e4 + Math.random() * 33);
+                canvas.getContext('2d').fillText(character, index * 10, value);
+                columns[index] = value > 758 + Math.random() * 1e4 ? 0 : value + 10;
+            });
+        }
+
+        setInterval(step, 33);
+    </script>
+</body>
+</html>

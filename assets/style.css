@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+p {
+    color: white;
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+h1 {
+    color: white;
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+h2 {
+    color: white;
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+body {
+    background-color: #080808;
+    user-select: none;
+}
+
+.cuadro-central {
+    width: 48rem;
+    height: 34rem;
+    background-color: #080808;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.icono-main {
+    width: 256px;
+    height: 256px;
+    background-image: url('https://avatars.githubusercontent.com/u/87620680?size=256');
+    background-repeat: no-repeat;
+    border-radius: 1px;
+    float: left;
+
+    margin-right: 20px;
+}
+
+.title {
+    float: center;
+    border: 3px dotted white;
+    padding-top: 10px;
+    margin-left: 260px;
+}
+
+.redes {
+    float: center;
+    border: 3px dotted white;
+    padding-top: 10px;
+    margin-top: 10px;
+    margin-left: 260px;
+}
+
+.abtme {
+    margin-top: 5px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 40px;
+    border: 3px dotted white;
+}
+
+.icons {
+    color: white;
+    font-size: 32px;
+    margin-right: 25px;
+    padding-bottom: 30px;
+}
+
+.turbo {
+    width: 250px;
+    height: 250px;
+    background-image: url('turbogranny.png');
+    background-repeat: no-repeat;
+    float: right;
+    margin-top: 15px;
+}

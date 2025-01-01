@@ -6,31 +6,33 @@
     box-sizing: border-box;
 }
 
-p, h1, h2{
-    color: white;
+p, h1, h2, h3{
+    color: #A163E1;
     font-family: 'Source Code Pro';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
 }
 
-tr, td, code {
-    color:white;
-    font-size: 0px;
-}
-
 body {
-    background-color: #080808;
+    background-image: url('./bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
     user-select: none;
+    background-color: #000000;
 }
 
 .cuadro-central {
+    background-color: rgba(0, 0, 0, 0.3);
+    /* background-color: rgba(0, 0, 0, 0.3); */
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+
     width: 48rem;
     height: 34rem;
-    background-color: #080808;
+
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -39,130 +41,52 @@ body {
     height: 256px;
     background-image: url('https://avatars.githubusercontent.com/u/87620680?size=256');
     background-repeat: no-repeat;
-    border-radius: 1px;
+    border-radius: 15px;
     float: left;
 
+    margin-top: 10px;
+    margin-left: 10px;
     margin-right: 20px;
 }
 
 .title {
-    float: center;
-    border: 3px dotted white;
-    padding-top: 10px;
-    margin-left: 260px;
+    position: relative;
+    top: 3%;
 }
 
 .redes {
-    float: center;
-    border: 3px dotted white;
-    padding-top: 10px;
-    padding-bottom: 20px;
-    margin-top: 10px;
-    margin-left: 260px;
-}
-
-.abtme {
-    margin-top: 8px;
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-bottom: 30px;
-    border: 3px dotted white;
+    position: relative;
+    top: -35%;
+    left: 2%;
 }
 
 .icons {
-    color: white;
-    font-size: 32px;
-    margin-right: 25px;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    color: #ad6feb;
+    font-size: 48px;
+    margin: 10px;
 }
 
-.turbo {
-    width: 250px;
-    height: 250px;
-    background-image: url('turbogranny.png');
-    background-repeat: no-repeat;
-    float: right;
-    margin-top: 15px;
+.iconos-contenedor {
+    display: flex;
+    flex-direction: column;
+}
+  
+.fila-iconos {
+    display: flex;
+    margin-top: 3%;
+    margin-left: 3%;
 }
 
-#ascci {
-    display: none;
+.playlist {
+    position: relative;
+    top: 5%;
+    left: 38%;
 }
 
-@media (max-width: 768px) {
-
-    p {
-        font-size: 8px;
-    }
-
-    h1, h2 {
-        font-size: 16px;
-    }
-
-    .icons {
-        font-size: 16px;
-        margin-right: 10px;
-        padding-bottom: 10px;
-        padding-top: 5px;
-    }
-
-    .cuadro-central {
-        width: 20rem;
-        height: 15rem;
-        background-color: #080808;
-        position: absolute;
-        top: 30%;
-    }
-
-    .title {
-        border: 2px dotted white;
-        margin-left: 135px;
-    }
-
-    .redes {
-        float: none;
-        border: 2px dotted white;
-        padding-top: 10px;
-        padding-bottom: 0px;
-        margin-top: 3px;
-        margin-left: 135px;
-    }
-    
-    .icono-main {
-        width: 128px;
-        height: 128px;
-        background-image: url('feñaicon.png');
-        background-size: cover;
-        border-radius: 1px;
-    }
-
-    .abtme {
-        margin-top: 5px;
-        padding-top: 10px;
-        padding-left: 10px;
-        padding-bottom: 10px;
-        border: 2px dotted white;
-    }
-
-    .turbo {
-        width: 150px;
-        height: 150px;
-        background-size: cover;
-        padding-top: 5px;
-        padding-bottom: 150px;
-    }
-
-    tr, td, code {
-        color:white;
-        font-size: 8px;
-    }
-
-    #ascci {
-        display: flex;
-        position: absolute;
-        top: 70%;
-        left: 100px;
-    }
-
+.gif {
+    position: absolute;
+    top: 56%;
+    left: 80%;
+    display: flex;
+    flex-direction: column;
 }

@@ -58,6 +58,7 @@ body {
     position: relative;
     top: -35%;
     left: 2%;
+    width: fit-content;
 }
 
 .icons {
@@ -69,6 +70,7 @@ body {
 .iconos-contenedor {
     display: flex;
     flex-direction: column;
+    width: fit-content;
 }
   
 .fila-iconos {

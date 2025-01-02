@@ -220,12 +220,20 @@ body {
         top: -25%;
         position: relative;
     }
+
+    .fila-iconos {
+        margin-top: -3%;
+    }
 }
 
 @media (max-width: 375px) {
     .redes {
         top: -24%;
         position: relative;
+    }
+
+    .fila-iconos {
+        margin-top: -3%;
     }
 }
 

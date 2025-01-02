@@ -52,6 +52,7 @@ body {
     background-repeat: no-repeat;
     border-radius: 15px;
     float: left;
+    position: relative;
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 20px;
@@ -274,6 +275,7 @@ body {
         margin-left: 8px;
         margin-right: 8px;
         margin-top: 2px;
+        margin-bottom: 2px;
     }
     
     .iconos-contenedor {

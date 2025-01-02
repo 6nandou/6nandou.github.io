@@ -14,6 +14,18 @@ p, h1, h2, h3{
     font-display: swap;
 }
 
+p {
+    margin-bottom: 20px;
+}
+
+h1, h3 {
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-style: oblique;
+}
+
 body {
     background-image: url('./bg.png');
     background-size: cover;
@@ -23,14 +35,11 @@ body {
 }
 
 .cuadro-central {
-    background-color: rgba(0, 0, 0, 0.3);
-    /* background-color: rgba(0, 0, 0, 0.3); */
+    background-color: #0000004d;
     backdrop-filter: blur(15px);
     border-radius: 10px;
-
     width: 48rem;
     height: 34rem;
-
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
@@ -43,7 +52,6 @@ body {
     background-repeat: no-repeat;
     border-radius: 15px;
     float: left;
-
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 20px;
@@ -54,9 +62,14 @@ body {
     top: 3%;
 }
 
+.divider {
+    height: 30px;
+    margin-top: 15px;
+}
+
 .redes {
     position: relative;
-    top: -33%;
+    top: -30%;
     left: 2%;
     width: fit-content;
 }
@@ -79,8 +92,126 @@ body {
     margin-left: 15%;
 }
 
+.contenedor-pl {
+    position: relative;
+    top: 6%;
+    left: 0%;
+    height: fit-content;
+}
+
 .playlist {
     position: relative;
-    top: 5%;
     left: 38%;
+    border-radius:12px;
+    width:450px; height:152px;
+}
+
+#ascci {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    
+    body {
+        background-position: top;
+        background-size: auto;
+    }
+
+    p {
+        font-size: 8px;
+        margin-bottom: 6px;
+    }
+
+    h1, h2 {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    h3 {
+        font-size: 0px;
+    }
+
+    .cuadro-central {
+        width: 20rem;
+        height: 20rem;
+        position: absolute;
+        top: 35%;
+    }
+
+    .title {
+        left: -3%;
+    }
+
+    .icono-main {
+        width: 128px;
+        height: 128px;
+        background-image: url('https://avatars.githubusercontent.com/u/87620680?size=256');
+        background-size: cover;
+        border-radius: 8px;
+    }
+
+    .divider {
+        height: 10px;
+        width: 45%;
+        margin-top: 8px;
+    }
+
+    .redes {
+        top: -28%;
+        position: relative;
+        width: fit-content;
+    }
+    
+    .icons {
+        color: #ad6feb;
+        font-size: 26px;
+        margin: 8px;
+    }
+    
+    .iconos-contenedor {
+        display: flex;
+        flex-direction:row;
+        width: fit-content;
+        padding-left: 10%;
+    }
+      
+    .fila-iconos {
+        display: flex;
+        margin-top: 0%;
+        margin-left: 0%;
+    }
+
+    .contenedor-pl {
+        position: relative;
+        top: 22%;
+        height: fit-content;
+        width: fit-content;
+    }    
+
+    .playlist {
+        position: relative;
+        border-radius:12px;
+        left: 5%;
+        width: 96%; height: 80px;
+    }
+
+    tr, td, code {
+        color:#ad6feb;
+        font-size: 8px;
+    }
+
+    #ascci {
+        display: flex;
+        position: absolute;
+        background-color: #0000004d;
+        backdrop-filter: blur(15px);
+        border-radius: 10px;
+        width: 128px;
+        height: 128px;
+        align-items: center;
+
+        top: 50%; left: 50%;
+        transform: translate(-50%, 150%);
+    }
+
 }

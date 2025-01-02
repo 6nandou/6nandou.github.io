@@ -215,3 +215,111 @@ body {
     }
 
 }
+
+@media (max-width: 320px) {
+    
+    body {
+        background-position: top;
+        background-size: auto;
+    }
+
+    p {
+        font-size: 8px;
+        margin-bottom: 6px;
+    }
+
+    h1, h2 {
+        font-size: 10px;
+        margin-bottom: 4px;
+    }
+
+    h3 {
+        font-size: 0px;
+    }
+
+    .cuadro-central {
+        width: 18rem;
+        height: 18rem;
+        position: absolute;
+        top: 35%;
+    }
+
+    .title {
+        left: -3%;
+    }
+
+    .icono-main {
+        width: 128px;
+        height: 128px;
+        background-image: url('https://avatars.githubusercontent.com/u/87620680?size=256');
+        background-size: cover;
+        border-radius: 8px;
+    }
+
+    .divider {
+        height: 10px;
+        width: 42%;
+        margin-top: 6px;
+    }
+
+    .redes {
+        top: -30%;
+        position: relative;
+        width: fit-content;
+    }
+    
+    .icons {
+        color: #ad6feb;
+        font-size: 20px;
+        margin-left: 8px;
+        margin-right: 8px;
+        margin-top: 2px;
+    }
+    
+    .iconos-contenedor {
+        display: flex;
+        flex-direction:row;
+        width: fit-content;
+        padding-left: 10%;
+    }
+      
+    .fila-iconos {
+        display: flex;
+        margin-top: 0%;
+        margin-left: 0%;
+    }
+
+    .contenedor-pl {
+        position: relative;
+        top: 18%;
+        height: fit-content;
+        width: fit-content;
+    }    
+
+    .playlist {
+        position: relative;
+        border-radius:12px;
+        left: 5%;
+        width: 90%; height: 80px;
+    }
+
+    tr, td, code {
+        color:#ad6feb;
+        font-size: 8px;
+    }
+
+    #ascci {
+        display: flex;
+        position: absolute;
+        background-color: #0000004d;
+        backdrop-filter: blur(15px);
+        border-radius: 10px;
+        width: 128px;
+        height: 128px;
+        align-items: center;
+
+        top: 50%; left: 50%;
+        transform: translate(-50%, 150%);
+    }
+
+}

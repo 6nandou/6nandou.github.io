@@ -10,8 +10,6 @@ p, h1, h2, h3{
     color: #A163E1;
     font-family: 'Source Code Pro';
     font-style: normal;
-    font-weight: 400;
-    font-display: swap;
 }
 
 p {
@@ -217,6 +215,20 @@ body {
 
 }
 
+@media (max-width: 425px) {
+    .redes {
+        top: -25%;
+        position: relative;
+    }
+}
+
+@media (max-width: 375px) {
+    .redes {
+        top: -24%;
+        position: relative;
+    }
+}
+
 @media (max-width: 320px) {
     
     body {
@@ -264,9 +276,8 @@ body {
     }
 
     .redes {
-        top: -30%;
+        top: -28%;
         position: relative;
-        width: fit-content;
     }
     
     .icons {

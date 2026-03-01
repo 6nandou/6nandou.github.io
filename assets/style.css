@@ -1,0 +1,382 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+p, h1, h2, h3{
+    color: #A163E1;
+    font-family: 'Source Code Pro';
+    font-style: normal;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+h1, h3 {
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-style: oblique;
+}
+
+body {
+    background-image: url('./bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    user-select: none;
+    background-color: #000000;
+}
+
+.btn-tools {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0000004d;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: #A163E1;
+    padding: 0;
+    border: 0.1px solid #a163e180;
+    text-decoration: none;
+    font-family: 'Source Code Pro';
+    font-size: 24px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-tools:hover {
+    background-color: #a163e166;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(161, 99, 225, 0.3);
+    border-color: #A163E1;
+}
+
+.btn-tools:active {
+    transform: translateY(-1px);
+}
+
+.cuadro-central {
+    background-color: #0000004d;
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    width: 48rem;
+    height: 34rem;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.icono-main {
+    width: 256px;
+    height: 256px;
+    background-image: url('https://avatars.githubusercontent.com/u/87620680?size=256');
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    float: left;
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.title {
+    position: relative;
+    top: 3%;
+}
+
+.divider {
+    height: 30px;
+    margin-top: 15px;
+}
+
+.redes {
+    position: relative;
+    top: -30%;
+    left: 2%;
+    width: fit-content;
+}
+
+.icons {
+    color: #ad6feb;
+    font-size: 48px;
+    margin: 10px;
+}
+
+.iconos-contenedor {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+  
+.fila-iconos {
+    display: flex;
+    margin-top: 10%;
+    margin-left: 15%;
+}
+
+.contenedor-pl {
+    position: relative;
+    top: 6%;
+    left: 0%;
+    height: fit-content;
+}
+
+.playlist {
+    position: relative;
+    left: 38%;
+    border-radius:12px;
+    width:450px; height:152px;
+}
+
+#ascci {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    
+    body {
+        background-position: top;
+        background-size: auto;
+    }
+
+    p {
+        font-size: 8px;
+        margin-bottom: 6px;
+    }
+
+    h1, h2 {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    h3 {
+        font-size: 0px;
+    }
+
+    .cuadro-central {
+        width: 20rem;
+        height: 20rem;
+        position: absolute;
+        top: 35%;
+    }
+
+    .title {
+        left: -3%;
+    }
+
+    .icono-main {
+        width: 128px;
+        height: 128px;
+        background-image: url('https://avatars.githubusercontent.com/u/87620680?size=256');
+        background-size: cover;
+        border-radius: 8px;
+    }
+
+    .divider {
+        height: 10px;
+        width: 45%;
+        margin-top: 8px;
+    }
+
+    .redes {
+        top: -28%;
+        position: relative;
+        width: fit-content;
+    }
+    
+    .icons {
+        color: #ad6feb;
+        font-size: 26px;
+        margin: 8px;
+    }
+    
+    .iconos-contenedor {
+        display: flex;
+        flex-direction:row;
+        width: fit-content;
+        padding-left: 10%;
+    }
+      
+    .fila-iconos {
+        display: flex;
+        margin-top: 0%;
+        margin-left: 0%;
+    }
+
+    .contenedor-pl {
+        position: relative;
+        top: 22%;
+        height: fit-content;
+        width: fit-content;
+    }    
+
+    .playlist {
+        position: relative;
+        border-radius:12px;
+        left: 5%;
+        width: 96%; height: 80px;
+    }
+
+    tr, td, code {
+        color:#ad6feb;
+        font-size: 8px;
+    }
+
+    #ascci {
+        display: flex;
+        position: absolute;
+        background-color: #0000004d;
+        backdrop-filter: blur(15px);
+        border-radius: 10px;
+        width: 128px;
+        height: 128px;
+        align-items: center;
+
+        top: 50%; left: 50%;
+        transform: translate(-50%, 150%);
+    }
+
+}
+
+@media (max-width: 425px) {
+    .redes {
+        top: -25%;
+        position: relative;
+    }
+
+    .fila-iconos {
+        margin-top: -3%;
+    }
+}
+
+@media (max-width: 375px) {
+    .redes {
+        top: -24%;
+        position: relative;
+    }
+
+    .fila-iconos {
+        margin-top: -3%;
+    }
+}
+
+@media (max-width: 320px) {
+    
+    body {
+        background-position: top;
+        background-size: auto;
+    }
+
+    p {
+        font-size: 8px;
+        margin-bottom: 6px;
+    }
+
+    h1, h2 {
+        font-size: 10px;
+        margin-bottom: 4px;
+    }
+
+    h3 {
+        font-size: 0px;
+    }
+
+    .cuadro-central {
+        width: 18rem;
+        height: 18rem;
+        position: absolute;
+        top: 35%;
+    }
+
+    .title {
+        left: -3%;
+    }
+
+    .icono-main {
+        width: 128px;
+        height: 128px;
+        background-image: url('https://avatars.githubusercontent.com/u/87620680?size=256');
+        background-size: cover;
+        border-radius: 8px;
+    }
+
+    .divider {
+        height: 10px;
+        width: 42%;
+        margin-top: 6px;
+    }
+
+    .redes {
+        top: -28%;
+        position: relative;
+    }
+    
+    .icons {
+        color: #ad6feb;
+        font-size: 20px;
+        margin-left: 8px;
+        margin-right: 8px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    
+    .iconos-contenedor {
+        display: flex;
+        flex-direction:row;
+        width: fit-content;
+        padding-left: 10%;
+    }
+      
+    .fila-iconos {
+        display: flex;
+        margin-top: 0%;
+        margin-left: 0%;
+    }
+
+    .contenedor-pl {
+        position: relative;
+        top: 18%;
+        height: fit-content;
+        width: fit-content;
+    }    
+
+    .playlist {
+        position: relative;
+        border-radius:12px;
+        left: 5%;
+        width: 90%; height: 80px;
+    }
+
+    tr, td, code {
+        color:#ad6feb;
+        font-size: 8px;
+    }
+
+    #ascci {
+        display: flex;
+        position: absolute;
+        background-color: #0000004d;
+        backdrop-filter: blur(15px);
+        border-radius: 10px;
+        width: 128px;
+        height: 128px;
+        align-items: center;
+
+        top: 50%; left: 50%;
+        transform: translate(-50%, 150%);
+    }
+
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱 › Generador QR</title>
+    <link rel="icon" href="../assets/katana.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../tools/toolstyle.css">
+</head>
+<body>
+    <div class="cuadro-central">
+        <div class="qr-wrapper">
+            <h1>Generador QR</h1>
+            
+            <div class="input-group">
+                <input type="text" id="text-input" placeholder="Pega tu texto o URL aquí..." oninput="generateQR()">
+            </div>
+
+            <div id="qrcode"></div>
+
+            <a href="../" class="btn-home"><i class="bi bi-arrow-left"></i> Volver al inicio</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <script>
+        const qrContainer = document.getElementById("qrcode");
+        const input = document.getElementById("text-input");
+        
+        const qrCode = new QRCode(qrContainer, {
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        function generateQR() {
+            const value = input.value.trim();
+            
+            if (value) {
+                qrCode.clear();
+                qrCode.makeCode(value);
+                qrContainer.style.display = "block";
+            } else {
+                qrContainer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

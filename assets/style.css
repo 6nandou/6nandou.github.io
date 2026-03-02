@@ -166,6 +166,15 @@ body {
         font-size: 0px;
     }
 
+    .btn-tools {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
     .cuadro-central {
         width: 20rem;
         height: 20rem;
@@ -252,6 +261,14 @@ body {
 }
 
 @media (max-width: 425px) {
+    .btn-tools {
+        bottom: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+
     .redes {
         top: -25%;
         position: relative;
@@ -263,6 +280,14 @@ body {
 }
 
 @media (max-width: 375px) {
+    .btn-tools {
+        bottom: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+
     .redes {
         top: -24%;
         position: relative;
@@ -274,6 +299,13 @@ body {
 }
 
 @media (max-width: 320px) {
+    .btn-tools {
+        bottom: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
     
     body {
         background-position: top;

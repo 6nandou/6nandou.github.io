@@ -151,6 +151,13 @@ input {
         font-size: 0px;
     }
 
+    .cuadro-central {
+        width: 20rem;
+        height: 20rem;
+        position: absolute;
+        top: 35%;
+    }
+
 }
 
 @media (max-width: 320px) {

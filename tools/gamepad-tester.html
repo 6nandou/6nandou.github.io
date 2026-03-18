@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>爱 › Gamepad Tester</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../tools/toolstyle.css">
+</head>
+<body>
+
+<div class="cuadro-central">
+    <div class="tester-layout">
+        <h1>Gamepad Tester</h1>
+        <p id="msg-init">Conecta un mando para comenzar</p>
+
+        <div id="main-tester" class="tester-container">
+            <div class="data-panel">
+                <h3 id="gp-name">Cargando...</h3>
+                <p style="font-size: 0.7rem; color: #a163e1;">Ejes: <span id="axes-txt">0,0,0,0</span></p>
+                <div class="button-grid" id="btn-grid"></div>
+            </div>
+
+            <div class="visual-panel">
+                <svg id="gamepad-svg" viewBox="0 0 441 403">
+                    <rect id="button-4" class="svg-trigger-black" x="110" y="50" width="45" height="15" rx="4"/>
+                    <rect id="button-6" class="svg-trigger-black" x="115" y="10" width="35" height="30" rx="4"/>
+                    <rect id="button-5" class="svg-trigger-black" x="286" y="50" width="45" height="15" rx="4"/>
+                    <rect id="button-7" class="svg-trigger-black" x="291" y="10" width="35" height="30" rx="4"/>
+
+                    <path class="svg-body" d="M220.5 92C200.5 92 154 92 128 92C95.5 92 66.5 109.5 55 137.5C43.5 165.5 4 271.1 4 317.5C4 363.9 17.5 378.5 49.5 378.5C81.5 378.5 105 294.5 150 294.5C195 294.5 220.5 294.5 220.5 294.5C220.5 294.5 245.5 294.5 290.5 294.5C335.5 294.5 359 378.5 391 378.5C423 378.5 436.5 363.9 436.5 317.5C436.5 271.1 397 165.5 385.5 137.5C374 109.5 345 92 312.5 92C286.5 92 240 92 220.5 92Z" />
+
+                    <g id="dpad-group" transform="translate(100, 210)">
+                        <path id="button-12" class="svg-btn" d="M10 0h10v10H10z" />
+                        <path id="button-13" class="svg-btn" d="M10 20h10v10H10z" />
+                        <path id="button-14" class="svg-btn" d="M0 10h10v10H0z" />
+                        <path id="button-15" class="svg-btn" d="M20 10h10v10H20z" />
+                    </g>
+                    
+                    <circle id="button-0" class="svg-btn" cx="329" cy="198" r="15"/>
+                    <circle id="button-1" class="svg-btn" cx="365" cy="160" r="15"/>
+                    <circle id="button-2" class="svg-btn" cx="293" cy="160" r="15"/>
+                    <circle id="button-3" class="svg-btn" cx="329" cy="122" r="15"/>
+
+                    <circle id="stick-l" class="svg-stick" cx="113" cy="160" r="30"/>
+                    <circle id="stick-r" class="svg-stick" cx="278" cy="238" r="30"/>
+                    <circle id="button-10" class="svg-btn" cx="113" cy="160" r="12"/>
+                    <circle id="button-11" class="svg-btn" cx="278" cy="238" r="12"/>
+
+                    <circle id="button-8" class="svg-btn" cx="205" cy="162" r="7"/>
+                    <circle id="button-9" class="svg-btn" cx="235" cy="162" r="7"/>
+                    <circle id="button-16" class="svg-btn" cx="220" cy="182" r="10"/>
+                </svg>
+            </div>
+
+            <div class="actions-row">
+                <button class="btn-action" onclick="vibrate(400)">Vibrar</button>
+                <div class="toggle-container">
+                    <span>Vibración Continua</span>
+                    <label class="switch">
+                        <input type="checkbox" onchange="toggleInfinite(this)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <a href="../" class="btn-home"><i class="bi bi-arrow-left"></i> Volver</a>
+    </div>
+</div>
+
+<script>
+    const btnGrid = document.getElementById('btn-grid');
+    let infiniteInterval = null;
+
+    for(let i=0; i<17; i++) {
+        btnGrid.innerHTML += `<div id="label-b${i}" class="btn-stat">B${i}: 0.00</div>`;
+    }
+
+    function toggleInfinite(cb) {
+        if(cb.checked) {
+            infiniteInterval = setInterval(() => vibrate(1000), 500);
+        } else {
+            clearInterval(infiniteInterval);
+            navigator.getGamepads()[0]?.vibrationActuator?.reset();
+        }
+    }
+
+    function vibrate(ms) {
+        navigator.getGamepads()[0]?.vibrationActuator?.playEffect("dual-rumble", { duration: ms, strongMagnitude: 1.0 });
+    }
+
+    function update() {
+        const gp = navigator.getGamepads()[0];
+        if (gp) {
+            document.getElementById('main-tester').style.display = 'grid';
+            document.getElementById('msg-init').style.display = 'none';
+            document.getElementById('gp-name').innerText = gp.id.split('(')[0];
+
+            gp.buttons.forEach((btn, i) => {
+                const label = document.getElementById(`label-b${i}`);
+                const svgBtn = document.getElementById(`button-${i}`);
+                
+                if(label) {
+                    label.innerText = `B${i}: ${btn.value.toFixed(2)}`;
+                    btn.pressed ? label.classList.add('active') : label.classList.remove('active');
+                }
+
+                if(svgBtn) {
+                    svgBtn.style.fill = btn.pressed ? "#A163E1" : (svgBtn.classList.contains('svg-trigger-black') ? "#000" : "transparent");
+                }
+            });
+
+            document.getElementById('stick-l').setAttribute('transform', `translate(${gp.axes[0]*15}, ${gp.axes[1]*15})`);
+            document.getElementById('stick-r').setAttribute('transform', `translate(${gp.axes[2]*15}, ${gp.axes[3]*15})`);
+            document.getElementById('axes-txt').innerText = gp.axes.map(a => a.toFixed(2)).join(', ');
+        }
+        requestAnimationFrame(update);
+    }
+
+    window.addEventListener("gamepadconnected", update);
+</script>
+</body>
+</html>

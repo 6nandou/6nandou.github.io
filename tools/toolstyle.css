@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+p, h1, h2, h3 {
+    color: #A163E1;
+    font-family: 'Source Code Pro';
+    font-style: normal;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+h1, h3 {
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-style: oblique;
+}
+
+body {
+    background-image: url('../assets/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    user-select: none;
+    background-color: #000000;
+}
+
+.cuadro-central {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0000004d;
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    width: 48rem;
+    max-width: 90vw;
+    max-height: 85vh;
+    text-align: center;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.cuadro-central::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cuadro-central::-webkit-scrollbar-track {
+    background: rgba(161, 99, 225, 0.1);
+    border-radius: 3px;
+}
+
+.cuadro-central::-webkit-scrollbar-thumb {
+    background: #A163E1;
+    border-radius: 3px;
+}
+
+.tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin: 20px 0;
+}
+
+.tool-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid #a163e140;
+    border-radius: 16px;
+    padding: 1.2rem;
+    width: 220px;
+    height: 180px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    border-color: #A163E1;
+    box-shadow: 0 8px 20px rgba(161, 99, 225, 0.2);
+}
+
+.tool-card h2 {
+    color: #A163E1;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tool-card p {
+    color: #ffffffb3;
+    font-size: 0.75rem;
+    margin-bottom: 15px;
+    font-family: 'Source Code Pro', monospace;
+    line-height: 1.4;
+}
+
+.btn-open-tool {
+    background-color: #A163E1;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: 'Source Code Pro', monospace;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-open-tool:hover {
+    background-color: #b37af0;
+    transform: scale(1.05);
+}
+
+.btn-home {
+    margin-top: 20px;
+    color: #A163E1;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-home:hover {
+    color: #b37af0;
+    transform: translateX(-3px);
+}
+
+@media (max-width: 768px) {
+    body {
+        background-position: top;
+        background-size: auto;
+    }
+
+    p {
+        font-size: 8px;
+        margin-bottom: 6px;
+    }
+
+    h1, h2 {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    h3 {
+        font-size: 0px;
+    }
+
+    .cuadro-central {
+        width: 20rem;
+        max-height: 90vh;
+        top: 35%;
+    }
+
+    .tools-grid {
+        gap: 15px;
+    }
+
+    .tool-card {
+        width: 180px;
+        padding: 1rem;
+    }
+
+    .tool-card h2 {
+        font-size: 0.9rem;
+    }
+
+    .tool-card p {
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tool-card {
+        width: 160px;
+        padding: 0.9rem;
+    }
+}
+
+@media (max-width: 320px) {
+    body {
+        background-position: top;
+        background-size: auto;
+    }
+
+    p {
+        font-size: 8px;
+        margin-bottom: 6px;
+    }
+
+    h1, h2 {
+        font-size: 10px;
+        margin-bottom: 4px;
+    }
+
+    h3 {
+        font-size: 0px;
+    }
+
+    .cuadro-central {
+        width: 18rem;
+        top: 35%;
+    }
+}

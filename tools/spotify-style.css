@@ -41,7 +41,7 @@ body {
     max-height: 90vh;
     text-align: center;
     overflow-y: auto;
-    padding: 20px;
+    padding: 15px;
 }
 
 .cuadro-central::-webkit-scrollbar {
@@ -64,7 +64,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 20px;
+    padding: 0px;
     text-align: center;
 }
 
@@ -72,8 +72,8 @@ body {
     background: rgba(29, 185, 84, 0.1);
     border: 1px solid #1DB954;
     border-radius: 12px;
-    padding: 12px 20px;
-    margin: 50px 0;
+    padding: 10px 15px;
+    margin: 15px 0;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -91,13 +91,14 @@ body {
     background: #1DB954;
     color: white;
     border: none;
-    padding: 14px 32px;
+    padding: 10px 24px;
     border-radius: 50px;
     font-family: 'Source Code Pro', monospace;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin: 15px 0;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -112,91 +113,75 @@ body {
 .stats-container {
     display: none;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .resume-layout {
     display: flex;
-    gap: 30px;
+    gap: 20px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .left-panel {
-    flex: 0.8;
+    flex: 0.7;
     min-width: 250px;
 }
 
 .right-panel {
-    flex: 2.2;
+    flex: 2.3;
 }
 
 .total-plays {
     background: rgba(161, 99, 225, 0.3);
     border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 25px;
+    padding: 12px;
+    margin-bottom: 15px;
     text-align: center;
 }
 
 .total-plays h3 {
-    margin-bottom: 10px;
-    font-size: 1rem;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
 }
 
 .total-plays span {
     color: #1DB954;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: bold;
 }
 
 .genres-section {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 16px;
-    padding: 15px;
+    padding: 10px;
 }
 
 .section-title {
     color: #A163E1;
     font-family: 'Source Code Pro';
-    margin: 0 0 15px 0;
-    font-size: 1rem;
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
     border-bottom: 1px solid #A163E1;
     display: inline-block;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
 }
 
 .genres-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin: 15px 0;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.genres-grid::-webkit-scrollbar {
-    width: 4px;
-}
-
-.genres-grid::-webkit-scrollbar-track {
-    background: rgba(161, 99, 225, 0.1);
-    border-radius: 2px;
-}
-
-.genres-grid::-webkit-scrollbar-thumb {
-    background: #A163E1;
-    border-radius: 2px;
+    gap: 8px;
+    margin: 10px 0;
 }
 
 .genre-tag {
     background: rgba(161, 99, 225, 0.2);
     border: 1px solid #A163E1;
     border-radius: 50px;
-    padding: 6px 14px;
+    padding: 4px 10px;
     color: #A163E1;
     font-family: 'Source Code Pro';
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     transition: all 0.3s ease;
 }
 
@@ -209,33 +194,16 @@ body {
 .artists-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    margin: 20px 0;
+    gap: 10px;
+    margin: 10px 0;
     width: 100%;
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.artists-grid::-webkit-scrollbar {
-    width: 4px;
-}
-
-.artists-grid::-webkit-scrollbar-track {
-    background: rgba(161, 99, 225, 0.1);
-    border-radius: 2px;
-}
-
-.artists-grid::-webkit-scrollbar-thumb {
-    background: #A163E1;
-    border-radius: 2px;
 }
 
 .artist-card {
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid #A163E1;
     border-radius: 12px;
-    padding: 12px;
+    padding: 8px;
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -247,11 +215,11 @@ body {
 }
 
 .artist-img {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 12px;
     object-fit: cover;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     border: 2px solid #A163E1;
 }
 
@@ -260,21 +228,15 @@ body {
     font-family: 'Source Code Pro';
     font-size: 0.7rem;
     font-weight: bold;
-    margin: 8px 0 4px;
+    margin: 5px 0 0;
     word-break: break-word;
 }
 
-.artist-plays {
-    color: #1DB954;
-    font-family: 'Source Code Pro';
-    font-size: 0.65rem;
-}
-
 .btn-home {
-    margin-top: 20px;
+    margin-top: 15px;
     color: #A163E1;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -314,52 +276,57 @@ body {
         top: 50%;
         transform: translate(-50%, -50%);
         max-height: 85vh;
+        padding: 10px;
     }
     
     .artists-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
     }
     
     .artist-img {
-        width: 60px;
-        height: 60px;
+        width: 55px;
+        height: 55px;
     }
     
     .artist-name {
         font-size: 0.6rem;
     }
     
-    .artist-plays {
-        font-size: 0.55rem;
-    }
-    
     .genre-tag {
-        font-size: 0.65rem;
-        padding: 4px 10px;
+        font-size: 0.6rem;
+        padding: 3px 8px;
     }
     
     .total-plays span {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
     
     .privacy-notice {
-        font-size: 0.65rem;
-        padding: 10px 15px;
+        font-size: 0.6rem;
+        padding: 8px 12px;
     }
     
     .btn-spotify {
-        padding: 10px 24px;
-        font-size: 0.9rem;
+        padding: 8px 18px;
+        font-size: 0.85rem;
     }
     
     h1 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     p {
-        font-size: 0.7rem;
-        margin-bottom: 10px;
+        font-size: 0.65rem;
+        margin-bottom: 8px;
+    }
+    
+    .section-title {
+        font-size: 0.8rem;
+    }
+    
+    .total-plays h3 {
+        font-size: 0.8rem;
     }
 }
 
@@ -368,68 +335,33 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    .cuadro-central {
-        padding: 15px;
-    }
-    
-    .spotify-container {
-        padding: 10px;
-    }
-    
-    .total-plays {
-        padding: 12px;
-    }
-    
-    .total-plays span {
-        font-size: 1.2rem;
-    }
-    
-    .genre-tag {
-        font-size: 0.6rem;
-        padding: 3px 8px;
-    }
-    
     .artist-img {
         width: 50px;
         height: 50px;
-    }
-    
-    .artist-name {
-        font-size: 0.55rem;
-    }
-    
-    .section-title {
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 320px) {
-    .artists-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-    
-    .artist-img {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .artist-name {
-        font-size: 0.5rem;
     }
     
     .genre-tag {
         font-size: 0.55rem;
         padding: 2px 6px;
     }
+}
+
+@media (max-width: 320px) {
+    .artist-img {
+        width: 45px;
+        height: 45px;
+    }
     
-    .privacy-notice {
+    .artist-name {
         font-size: 0.55rem;
-        gap: 8px;
     }
     
     .btn-spotify {
-        padding: 8px 18px;
-        font-size: 0.8rem;
+        padding: 6px 14px;
+        font-size: 0.75rem;
+    }
+    
+    .privacy-notice {
+        font-size: 0.55rem;
     }
 }

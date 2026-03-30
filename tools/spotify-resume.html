@@ -17,7 +17,7 @@
             
             <div class="privacy-notice" id="privacy-box">
                 <i class="bi bi-shield-check"></i>
-                <span>🔒 Tus datos se guardan localmente para mantener la sesión activa.</span>
+                <span>🔒 Datos locales. No compartimos tu información.</span>
             </div>
             
             <button id="spotify-login-btn" class="btn-spotify">
@@ -35,7 +35,7 @@
                 <div class="resume-layout">
                     <div class="left-panel">
                         <div class="total-plays">
-                            <h3>🎵 Reproducciones Totales</h3>
+                            <h3>🎵 Reproducciones</h3>
                             <span id="total-plays-count">--</span>
                         </div>
 
@@ -62,7 +62,7 @@
         <div id="story-content" class="story-card">
             <button onclick="closeStory()" class="close-btn">✕</button>
             <div id="story-inner"></div>
-            <button id="download-story-btn" class="btn-spotify" style="background: #A163E1;">Descargar imagen</button>
+            <button id="download-story-btn" class="btn-spotify" style="background: #A163E1; margin-top: 20px;">Descargar</button>
         </div>
     </div>
 
@@ -73,7 +73,6 @@
         const SCOPES = 'user-top-read user-read-recently-played user-read-private';
         
         let accessToken = null;
-        let topArtistsData = [];
         let userProfile = null;
 
         const loginBtn = document.getElementById('spotify-login-btn');
@@ -86,19 +85,19 @@
         const userNameSpan = document.getElementById('user-name');
 
         async function loginWithSpotify() {
-            const codeVerifier = Array.from(crypto.getRandomValues(new Uint8Array(64))).map(b => b.toString(16).padStart(2, '0')).join('');
-            localStorage.setItem('code_verifier', codeVerifier);
-            const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(codeVerifier));
-            const codeChallenge = btoa(String.fromCharCode(...new Uint8Array(digest))).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+            const verifier = Array.from(crypto.getRandomValues(new Uint8Array(64))).map(b => b.toString(16).padStart(2, '0')).join('');
+            localStorage.setItem('code_verifier', verifier);
+            const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier));
+            const challenge = btoa(String.fromCharCode(...new Uint8Array(digest))).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
             
-            const authUrl = new URL('https://accounts.spotify.com/authorize');
-            authUrl.searchParams.append('client_id', CLIENT_ID);
-            authUrl.searchParams.append('response_type', 'code');
-            authUrl.searchParams.append('redirect_uri', REDIRECT_URI);
-            authUrl.searchParams.append('scope', SCOPES);
-            authUrl.searchParams.append('code_challenge_method', 'S256');
-            authUrl.searchParams.append('code_challenge', codeChallenge);
-            window.location.href = authUrl.toString();
+            const url = new URL('https://accounts.spotify.com/authorize');
+            url.searchParams.append('client_id', CLIENT_ID);
+            url.searchParams.append('response_type', 'code');
+            url.searchParams.append('redirect_uri', REDIRECT_URI);
+            url.searchParams.append('scope', SCOPES);
+            url.searchParams.append('code_challenge_method', 'S256');
+            url.searchParams.append('code_challenge', challenge);
+            window.location.href = url.toString();
         }
 
         async function handleRedirect() {
@@ -124,11 +123,12 @@
 
         async function fetchUserData() {
             try {
+                const headers = { 'Authorization': `Bearer ${accessToken}` };
                 const [p, a, t, r] = await Promise.all([
-                    fetch('https://api.spotify.com/v1/me', { headers: { 'Authorization': `Bearer ${accessToken}` } }),
-                    fetch('https://api.spotify.com/v1/me/top/artists?limit=20&time_range=medium_term', { headers: { 'Authorization': `Bearer ${accessToken}` } }),
-                    fetch('https://api.spotify.com/v1/me/top/tracks?limit=50', { headers: { 'Authorization': `Bearer ${accessToken}` } }),
-                    fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', { headers: { 'Authorization': `Bearer ${accessToken}` } })
+                    fetch('https://api.spotify.com/v1/me', { headers }),
+                    fetch('https://api.spotify.com/v1/me/top/artists?limit=20', { headers }),
+                    fetch('https://api.spotify.com/v1/me/top/tracks?limit=1', { headers }),
+                    fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', { headers })
                 ]);
 
                 if (p.status === 401) throw new Error();
@@ -138,7 +138,6 @@
                 const tracks = await t.json();
                 const recent = await r.json();
 
-                topArtistsData = artists.items || [];
                 userNameSpan.textContent = userProfile.display_name;
                 totalPlaysSpan.textContent = ((recent.items?.length || 0) + (tracks.total || 0)).toLocaleString();
 
@@ -146,17 +145,17 @@
                 privacyBox.style.display = 'none';
                 statsContainer.style.display = 'block';
 
-                artistsContainer.innerHTML = topArtistsData.slice(0, 15).map(art => `
+                artistsContainer.innerHTML = (artists.items || []).slice(0, 15).map(art => `
                     <div class="artist-card">
                         <div class="artist-img" style="background-image: url('${art.images[0]?.url}')"></div>
                         <div class="artist-name">${art.name}</div>
                     </div>`).join('');
 
                 const genreMap = new Map();
-                topArtistsData.forEach(art => art.genres?.forEach(g => genreMap.set(g, (genreMap.get(g) || 0) + 1)));
+                artists.items?.forEach(art => art.genres?.forEach(g => genreMap.set(g, (genreMap.get(g) || 0) + 1)));
                 const topGenres = Array.from(genreMap.entries()).sort((a,b) => b[1]-a[1]).slice(0, 10).map(g => g[0]);
-                
-                genresContainer.innerHTML = topGenres.length ? topGenres.map(g => `<span class="genre-tag">${g}</span>`).join('') : 'Sin datos';
+                genresContainer.innerHTML = topGenres.map(g => `<span class="genre-tag">${g}</span>`).join('');
+
             } catch (e) {
                 localStorage.removeItem('spotify_token');
                 loginBtn.style.display = 'block';
@@ -171,19 +170,18 @@
                 <h2 style="color:white; margin-bottom:15px;">${userProfile.display_name}</h2>
                 <div style="background:rgba(161,99,225,0.2); padding:15px; border-radius:15px; margin-bottom:15px;">
                     <span style="color:#1DB954; font-size:1.8rem; font-weight:bold;">${totalPlaysSpan.textContent}</span>
-                    <p style="color:white; font-size:0.8rem; margin:0;">Reproducciones Totales</p>
+                    <p style="color:white; font-size:0.8rem; margin:0;">Reproducciones</p>
                 </div>
-                <p style="color:#A163E1; font-size:0.9rem;">Mis Géneros:</p>
-                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:5px; margin-bottom:15px;">
+                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:5px;">
                     ${genres.map(g => `<span style="border:1px solid #A163E1; border-radius:20px; padding:3px 8px; color:white; font-size:0.6rem;">${g}</span>`).join('')}
                 </div>`;
             document.getElementById('story-overlay').style.display = 'flex';
         };
 
         document.getElementById('download-story-btn').onclick = async () => {
-            const canvas = await html2canvas(document.getElementById('story-content'), { backgroundColor: '#1a1a2e' });
+            const canvas = await html2canvas(document.getElementById('story-content'), { backgroundColor: '#1a1a2e', scale: 2 });
             const link = document.createElement('a');
-            link.download = 'resume.png';
+            link.download = 'spotify-resume.png';
             link.href = canvas.toDataURL();
             link.click();
         };

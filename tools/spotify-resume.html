@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>爱 › Spotify Resume</title>
     <link rel="icon" href="../assets/katana.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="spotify-style.css">
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="cuadro-central">
         <div class="spotify-container">
             <div style="text-align: center; width: 100%;">
                 <h1><i class="bi bi-spotify"></i> Spotify Resume</h1>
+                <p>Conecta con Spotify para ver tus artistas más escuchados y géneros favoritos</p>
             </div>
             
             <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: -45px; margin-bottom: 5px;">
@@ -32,13 +32,12 @@
             </button>
 
             <div id="stats-container" class="stats-container" style="display: none;">
+                <div id="user-info" style="text-align: center; margin-bottom: 15px;">
+                    <h3 id="user-name" style="margin: 0; color: white; font-size: 1rem;">--</h3>
+                </div>
+
                 <div class="resume-layout">
                     <div class="left-panel">
-                        <div id="user-info" style="text-align: center; margin-bottom: 15px;">
-                            <h3 id="user-name" style="margin: 0; color: white; font-size: 1rem;">--</h3>
-                            <p id="user-time" style="margin: 5px 0 0; font-size: 0.7rem;">Tiempo escuchado: calculando...</p>
-                        </div>
-
                         <div class="total-plays" id="total-plays-container">
                             <h3>🎵 Reproducciones Totales</h3>
                             <span id="total-plays-count">--</span>
@@ -87,7 +86,6 @@
         const artistsContainer = document.getElementById('artists-container');
         const totalPlaysSpan = document.getElementById('total-plays-count');
         const userNameSpan = document.getElementById('user-name');
-        const userTimeP = document.getElementById('user-time');
 
         function generateRandomString(length) {
             const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -204,6 +202,12 @@
                 
                 console.log('Artistas obtenidos:', topArtistsData.map(a => ({name: a.name, genres: a.genres})));
                 
+                const tracksResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                
+                const tracksData = await tracksResponse.json();
+                
                 const recentResponse = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
@@ -214,16 +218,13 @@
                     totalPlays = recentData.items?.length || 0;
                 }
                 
-                const listeningTime = Math.floor((totalPlays * 3.5) / 60);
-                userTimeP.textContent = `Tiempo escuchado: ~${listeningTime} horas`;
-                
                 displayArtists(topArtistsData);
                 
                 const genres = extractGenres(topArtistsData);
                 console.log('Géneros extraídos:', genres);
                 displayGenres(genres);
                 
-                displayTotalPlays(totalPlays);
+                displayTotalPlays(totalPlays, tracksData.total || 0);
                 
             } catch (error) {
                 console.error('Error:', error);
@@ -272,8 +273,8 @@
             }).join('');
         }
 
-        function displayTotalPlays(recentCount) {
-            const estimatedTotal = recentCount * 50;
+        function displayTotalPlays(recentCount, topTracksCount) {
+            const estimatedTotal = (recentCount * 20) + topTracksCount;
             totalPlaysSpan.textContent = estimatedTotal.toLocaleString();
         }
 
@@ -285,7 +286,6 @@
             return `
                 <div style="text-align: center;">
                     <h2 style="color: white; margin: 0;">${userProfile?.display_name || 'Usuario'}</h2>
-                    <p style="color: #A163E1; margin: 5px 0;">${userTimeP.textContent}</p>
                     
                     <div style="background: rgba(161, 99, 225, 0.3); border-radius: 20px; padding: 15px; margin: 20px 0;">
                         <h3 style="color: #1DB954; margin: 0;">🎵 Reproducciones Totales</h3>

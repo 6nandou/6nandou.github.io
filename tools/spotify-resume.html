@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="right-panel">
-                        <h3 class="section-title"><i class="bi bi-star-fill"></i> Top 20 Artistas</h3>
+                        <h3 class="section-title"><i class="bi bi-star-fill"></i> Top 15 Artistas</h3>
                         <div id="artists-container" class="artists-grid"></div>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                 userProfile = await profileResponse.json();
                 userNameSpan.textContent = userProfile.display_name;
                 
-                const artistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=20&time_range=long_term', {
+                const artistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=15&time_range=long_term', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
 
@@ -202,11 +202,7 @@
                 const artistsData = await artistsResponse.json();
                 topArtistsData = artistsData.items;
                 
-                const tracksResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term', {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                
-                const tracksData = await tracksResponse.json();
+                console.log('Artistas obtenidos:', topArtistsData.map(a => ({name: a.name, genres: a.genres})));
                 
                 const recentResponse = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
@@ -224,9 +220,10 @@
                 displayArtists(topArtistsData);
                 
                 const genres = extractGenres(topArtistsData);
+                console.log('Géneros extraídos:', genres);
                 displayGenres(genres);
                 
-                displayTotalPlays(totalPlays, tracksData.total || 0);
+                displayTotalPlays(totalPlays);
                 
             } catch (error) {
                 console.error('Error:', error);
@@ -242,9 +239,11 @@
             const genreMap = new Map();
             
             artists.forEach(artist => {
-                artist.genres?.forEach(genre => {
-                    genreMap.set(genre, (genreMap.get(genre) || 0) + 1);
-                });
+                if (artist.genres && artist.genres.length > 0) {
+                    artist.genres.forEach(genre => {
+                        genreMap.set(genre, (genreMap.get(genre) || 0) + 1);
+                    });
+                }
             });
             
             const sortedGenres = Array.from(genreMap.entries())
@@ -255,9 +254,11 @@
         }
 
         function displayGenres(genres) {
-            genresContainer.innerHTML = genres.length > 0 
-                ? genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('')
-                : '<p style="color: #A163E1;">No hay datos de géneros disponibles</p>';
+            if (genres.length > 0) {
+                genresContainer.innerHTML = genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('');
+            } else {
+                genresContainer.innerHTML = '<p style="color: #A163E1;">No hay datos de géneros disponibles. Algunos artistas no tienen géneros asignados en Spotify.</p>';
+            }
         }
 
         function displayArtists(artists) {
@@ -271,14 +272,14 @@
             }).join('');
         }
 
-        function displayTotalPlays(recentCount, topTracksCount) {
-            const estimatedTotal = (recentCount * 20) + topTracksCount;
+        function displayTotalPlays(recentCount) {
+            const estimatedTotal = recentCount * 50;
             totalPlaysSpan.textContent = estimatedTotal.toLocaleString();
         }
 
         function generateStoryHTML() {
-            const top10Artists = topArtistsData.slice(0, 10);
-            const top10Genres = Array.from(document.querySelectorAll('.genre-tag')).slice(0, 10).map(tag => tag.textContent);
+            const topArtists = topArtistsData.slice(0, 15);
+            const topGenres = Array.from(document.querySelectorAll('.genre-tag')).slice(0, 10).map(tag => tag.textContent);
             const totalPlays = totalPlaysSpan.textContent;
             
             return `
@@ -292,12 +293,11 @@
                     </div>
                     
                     <div style="margin: 20px 0;">
-                        <h3 style="color: #A163E1;">🎧 Top 10 Artistas</h3>
-                        <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                            ${top10Artists.map(artist => `
-                                <div style="text-align: center; width: 60px;">
-                                    <div style="width: 50px; height: 50px; border-radius: 12px; background: #A163E1; margin: 0 auto;"></div>
-                                    <p style="color: white; font-size: 0.6rem; margin: 5px 0;">${artist.name}</p>
+                        <h3 style="color: #A163E1;">🎧 Top 15 Artistas</h3>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                            ${topArtists.map(artist => `
+                                <div style="background: rgba(161, 99, 225, 0.2); border: 1px solid #A163E1; border-radius: 20px; padding: 4px 10px;">
+                                    <span style="color: white; font-size: 0.65rem;">${artist.name}</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -306,7 +306,7 @@
                     <div style="margin: 20px 0;">
                         <h3 style="color: #A163E1;">🎵 Top 10 Géneros</h3>
                         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;">
-                            ${top10Genres.map(genre => `<span style="background: rgba(161, 99, 225, 0.2); border: 1px solid #A163E1; border-radius: 20px; padding: 4px 10px; color: #A163E1; font-size: 0.65rem;">${genre}</span>`).join('')}
+                            ${topGenres.map(genre => `<span style="background: rgba(161, 99, 225, 0.2); border: 1px solid #A163E1; border-radius: 20px; padding: 4px 10px; color: #A163E1; font-size: 0.65rem;">${genre}</span>`).join('')}
                         </div>
                     </div>
                     

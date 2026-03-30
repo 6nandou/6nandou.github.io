@@ -124,12 +124,12 @@ body {
 }
 
 .left-panel {
-    flex: 0.7;
+    flex: 0.5;
     min-width: 250px;
 }
 
 .right-panel {
-    flex: 2.3;
+    flex: 2.5;
 }
 
 .total-plays {
@@ -218,8 +218,9 @@ body {
     width: 70px;
     height: 70px;
     border-radius: 12px;
-    object-fit: cover;
-    margin-bottom: 8px;
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto 8px auto;
     border: 2px solid #A163E1;
 }
 
@@ -314,11 +315,6 @@ body {
     
     h1 {
         font-size: 1.1rem;
-    }
-    
-    p {
-        font-size: 0.65rem;
-        margin-bottom: 8px;
     }
     
     .section-title {

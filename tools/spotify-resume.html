@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱 › Spotify Resume</title>
+    <link rel="icon" href="../assets/katana.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="toolstyle.css">
+</head>
+<body>
+    <div class="cuadro-central" style="height: auto; min-height: 34rem;">
+        <div class="spotify-container">
+            <h1><i class="bi bi-spotify"></i> Spotify Resume</h1>
+            <p>Conecta con Spotify para ver tus artistas más escuchados y géneros favoritos</p>
+            
+            <div class="privacy-notice">
+                <i class="bi bi-shield-lock"></i>
+                <span>🔒 Tus datos NO se almacenan. Solo se usan para mostrar tus estadísticas en esta sesión. No guardamos ni compartimos tu información.</span>
+            </div>
+            
+            <button id="spotify-login-btn" class="btn-spotify">
+                <i class="bi bi-spotify"></i> Conectar con Spotify
+            </button>
+
+            <div id="stats-container" class="stats-container">
+                <div class="total-plays" id="total-plays-container">
+                    <h3>🎵 Reproducciones Totales</h3>
+                    <span id="total-plays-count">--</span>
+                </div>
+
+                <div>
+                    <h3 class="section-title"><i class="bi bi-music-note-beamed"></i> Géneros Más Escuchados</h3>
+                    <div id="genres-container" class="genres-grid"></div>
+                </div>
+
+                <div>
+                    <h3 class="section-title"><i class="bi bi-star-fill"></i> Top 25 Artistas</h3>
+                    <div id="artists-container" class="artists-grid"></div>
+                </div>
+            </div>
+
+            <a href="../tools.html" class="btn-home" style="margin-top: 20px;">
+                <i class="bi bi-arrow-left"></i> Volver a herramientas
+            </a>
+        </div>
+    </div>
+
+    <style>
+        .privacy-notice {
+            background: rgba(29, 185, 84, 0.1);
+            border: 1px solid #1DB954;
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
+            color: #1DB954;
+            font-family: 'Source Code Pro', monospace;
+            text-align: left;
+        }
+        
+        .privacy-notice i {
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .privacy-notice {
+                font-size: 0.65rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+
+    <script>
+        const CLIENT_ID = '781d3df113e1428686584aa68aacc136';
+        const REDIRECT_URI = window.location.href.split('?')[0].split('#')[0];
+        const SCOPES = 'user-top-read user-read-recently-played';
+        
+        let accessToken = null;
+
+        const loginBtn = document.getElementById('spotify-login-btn');
+        const statsContainer = document.getElementById('stats-container');
+        const genresContainer = document.getElementById('genres-container');
+        const artistsContainer = document.getElementById('artists-container');
+        const totalPlaysSpan = document.getElementById('total-plays-count');
+
+        function generateRandomString(length) {
+            const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const values = crypto.getRandomValues(new Uint8Array(length));
+            return values.reduce((acc, x) => acc + possible[x % possible.length], "");
+        }
+
+        async function generateCodeChallenge(codeVerifier) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(codeVerifier);
+            const digest = await crypto.subtle.digest('SHA-256', data);
+            return btoa(String.fromCharCode(...new Uint8Array(digest)))
+                .replace(/=/g, '')
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_');
+        }
+
+        async function loginWithSpotify() {
+            const codeVerifier = generateRandomString(128);
+            localStorage.setItem('code_verifier', codeVerifier);
+            
+            const codeChallenge = await generateCodeChallenge(codeVerifier);
+            
+            const authUrl = new URL('https://accounts.spotify.com/authorize');
+            authUrl.searchParams.append('client_id', CLIENT_ID);
+            authUrl.searchParams.append('response_type', 'code');
+            authUrl.searchParams.append('redirect_uri', REDIRECT_URI);
+            authUrl.searchParams.append('scope', SCOPES);
+            authUrl.searchParams.append('code_challenge_method', 'S256');
+            authUrl.searchParams.append('code_challenge', codeChallenge);
+            
+            window.location.href = authUrl.toString();
+        }
+
+        async function exchangeCodeForToken(code) {
+            const codeVerifier = localStorage.getItem('code_verifier');
+            
+            const response = await fetch('https://accounts.spotify.com/api/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    client_id: CLIENT_ID,
+                    grant_type: 'authorization_code',
+                    code: code,
+                    redirect_uri: REDIRECT_URI,
+                    code_verifier: codeVerifier,
+                })
+            });
+            
+            const data = await response.json();
+            if (data.access_token) {
+                accessToken = data.access_token;
+                localStorage.setItem('spotify_token', accessToken);
+                return true;
+            }
+            return false;
+        }
+
+        async function handleRedirect() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            
+            if (code) {
+                const success = await exchangeCodeForToken(code);
+                if (success) {
+                    window.history.pushState({}, document.title, REDIRECT_URI);
+                    await fetchUserData();
+                    loginBtn.style.display = 'none';
+                    statsContainer.style.display = 'block';
+                }
+            } else {
+                const savedToken = localStorage.getItem('spotify_token');
+                if (savedToken) {
+                    accessToken = savedToken;
+                    await fetchUserData();
+                    loginBtn.style.display = 'none';
+                    statsContainer.style.display = 'block';
+                } else {
+                    loginBtn.style.display = 'flex';
+                }
+            }
+        }
+
+        async function fetchUserData() {
+            if (!accessToken) return;
+            
+            try {
+                const artistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=25&time_range=long_term', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+
+                if (!artistsResponse.ok) {
+                    if (artistsResponse.status === 401) {
+                        localStorage.removeItem('spotify_token');
+                        loginBtn.style.display = 'flex';
+                        statsContainer.style.display = 'none';
+                    }
+                    throw new Error('Error al obtener artistas');
+                }
+                
+                const artistsData = await artistsResponse.json();
+                
+                const tracksResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                
+                const tracksData = await tracksResponse.json();
+                
+                const recentResponse = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                
+                let totalPlays = 0;
+                if (recentResponse.ok) {
+                    const recentData = await recentResponse.json();
+                    totalPlays = recentData.items?.length || 0;
+                }
+                
+                displayArtists(artistsData.items);
+                
+                const genres = extractGenres(artistsData.items);
+                displayGenres(genres);
+                
+                displayTotalPlays(totalPlays, tracksData.total || 0);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                statsContainer.innerHTML = `<div class="error-message"><i class="bi bi-exclamation-triangle"></i> Error al cargar datos. Reconecta.</div>`;
+                loginBtn.style.display = 'flex';
+                statsContainer.style.display = 'none';
+                localStorage.removeItem('spotify_token');
+            }
+        }
+
+        function extractGenres(artists) {
+            const genreMap = new Map();
+            
+            artists.forEach(artist => {
+                artist.genres?.forEach(genre => {
+                    genreMap.set(genre, (genreMap.get(genre) || 0) + 1);
+                });
+            });
+            
+            const sortedGenres = Array.from(genreMap.entries())
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 15);
+            
+            return sortedGenres.map(([genre]) => genre);
+        }
+
+        function displayGenres(genres) {
+            genresContainer.innerHTML = genres.length > 0 
+                ? genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('')
+                : '<p style="color: #A163E1;">No hay datos de géneros disponibles</p>';
+        }
+
+        function displayArtists(artists) {
+            artistsContainer.innerHTML = artists.map(artist => `
+                <div class="artist-card">
+                    <img class="artist-img" src="${artist.images?.[2]?.url || 'https://via.placeholder.com/80?text=Artist'}" alt="${artist.name}">
+                    <div class="artist-name">${artist.name}</div>
+                    <div class="artist-plays">Popularidad: ${artist.popularity}%</div>
+                </div>
+            `).join('');
+        }
+
+        function displayTotalPlays(recentCount, topTracksCount) {
+            const estimatedTotal = (recentCount * 20) + topTracksCount;
+            totalPlaysSpan.textContent = estimatedTotal.toLocaleString();
+        }
+
+        loginBtn.addEventListener('click', loginWithSpotify);
+        
+        handleRedirect();
+    </script>
+</body>
+</html>

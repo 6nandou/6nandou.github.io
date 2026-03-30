@@ -12,13 +12,16 @@
 <body>
     <div class="cuadro-central">
         <div class="spotify-container">
-            <div style="text-align: center; width: 100%;">
+            <div style="text-align: center; width: 100%; padding-bottom: 25px;">
                 <h1><i class="bi bi-spotify"></i> Spotify Resume</h1>
             </div>
             
-            <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: -50px; margin-bottom: 10px;">
-                <button id="share-btn" class="btn-spotify" style="background: #A163E1; padding: 10px 20px; font-size: 0.9rem; display: none;">
-                    <i class="bi bi-camera"></i> Compartir como imagen
+            <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: -45px; margin-bottom: 5px;">
+                <button id="share-btn" class="btn-spotify" style="background: #A163E1; padding: 8px 18px; font-size: 0.8rem; display: none;">
+                    <i class="bi bi-camera"></i> Historia IG
+                </button>
+                <button id="share-story-btn" class="btn-spotify" style="background: #A163E1; padding: 8px 18px; font-size: 0.8rem; display: none; margin-left: 10px;">
+                    <i class="bi bi-instagram"></i> Historia Vertical
                 </button>
             </div>
             
@@ -32,6 +35,14 @@
             </button>
 
             <div id="stats-container" class="stats-container" style="display: none;">
+                <div id="user-info" style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding: 15px; background: rgba(161, 99, 225, 0.2); border-radius: 16px;">
+                    <img id="user-avatar" src="" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #A163E1;">
+                    <div style="text-align: left;">
+                        <h3 id="user-name" style="margin: 0; color: white;">--</h3>
+                        <p id="user-time" style="margin: 5px 0 0; font-size: 0.8rem;">Tiempo escuchado: calculando...</p>
+                    </div>
+                </div>
+
                 <div class="resume-layout">
                     <div class="left-panel">
                         <div class="total-plays" id="total-plays-container">
@@ -40,14 +51,14 @@
                         </div>
 
                         <div class="genres-section">
-                            <h3 class="section-title"><i class="bi bi-music-note-beamed"></i> Géneros Más Escuchados</h3>
-                            <div id="genres-container" class="genres-grid"></div>
+                            <h3 class="section-title"><i class="bi bi-music-note-beamed"></i> Top 5 Géneros</h3>
+                            <div id="genres-container" class="genres-grid" style="max-height: none;"></div>
                         </div>
                     </div>
 
                     <div class="right-panel">
-                        <h3 class="section-title"><i class="bi bi-star-fill"></i> Top 25 Artistas</h3>
-                        <div id="artists-container" class="artists-grid"></div>
+                        <h3 class="section-title"><i class="bi bi-star-fill"></i> Top 10 Artistas</h3>
+                        <div id="artists-container" class="artists-grid" style="max-height: none; grid-template-columns: repeat(5, 1fr);"></div>
                     </div>
                 </div>
             </div>
@@ -58,20 +69,33 @@
         </div>
     </div>
 
+    <div id="story-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+        <div id="story-content" style="background: linear-gradient(135deg, #1a1a2e, #4a4a6a); width: 360px; border-radius: 30px; padding: 30px 20px; text-align: center; position: relative;">
+            <button onclick="closeStory()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">✕</button>
+            <div id="story-inner"></div>
+            <button id="download-story-btn" class="btn-spotify" style="margin-top: 20px; background: #A163E1;">Descargar para Instagram</button>
+        </div>
+    </div>
+
     <script>
         const CLIENT_ID = '781d3df113e1428686584aa68aacc136';
         const REDIRECT_URI = window.location.href.split('?')[0].split('#')[0];
-        const SCOPES = 'user-top-read user-read-recently-played';
+        const SCOPES = 'user-top-read user-read-recently-played user-read-private';
         
         let accessToken = null;
         let topArtistsData = [];
+        let userProfile = null;
 
         const loginBtn = document.getElementById('spotify-login-btn');
         const shareBtn = document.getElementById('share-btn');
+        const shareStoryBtn = document.getElementById('share-story-btn');
         const statsContainer = document.getElementById('stats-container');
         const genresContainer = document.getElementById('genres-container');
         const artistsContainer = document.getElementById('artists-container');
         const totalPlaysSpan = document.getElementById('total-plays-count');
+        const userNameSpan = document.getElementById('user-name');
+        const userAvatarImg = document.getElementById('user-avatar');
+        const userTimeP = document.getElementById('user-time');
 
         function generateRandomString(length) {
             const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -143,6 +167,7 @@
                     await fetchUserData();
                     loginBtn.style.display = 'none';
                     shareBtn.style.display = 'flex';
+                    shareStoryBtn.style.display = 'flex';
                     statsContainer.style.display = 'block';
                 }
             } else {
@@ -152,6 +177,7 @@
                     await fetchUserData();
                     loginBtn.style.display = 'none';
                     shareBtn.style.display = 'flex';
+                    shareStoryBtn.style.display = 'flex';
                     statsContainer.style.display = 'block';
                 } else {
                     loginBtn.style.display = 'flex';
@@ -163,7 +189,14 @@
             if (!accessToken) return;
             
             try {
-                const artistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=25&time_range=long_term', {
+                const profileResponse = await fetch('https://api.spotify.com/v1/me', {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                userProfile = await profileResponse.json();
+                userNameSpan.textContent = userProfile.display_name;
+                userAvatarImg.src = userProfile.images?.[0]?.url || 'https://via.placeholder.com/60';
+                
+                const artistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=10&time_range=long_term', {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
 
@@ -172,6 +205,7 @@
                         localStorage.removeItem('spotify_token');
                         loginBtn.style.display = 'flex';
                         shareBtn.style.display = 'none';
+                        shareStoryBtn.style.display = 'none';
                         statsContainer.style.display = 'none';
                     }
                     throw new Error('Error al obtener artistas');
@@ -196,10 +230,13 @@
                     totalPlays = recentData.items?.length || 0;
                 }
                 
-                displayArtists(topArtistsData);
+                const listeningTime = Math.floor((totalPlays * 3.5) / 60);
+                userTimeP.textContent = `Tiempo escuchado: ~${listeningTime} horas`;
+                
+                displayArtists(topArtistsData.slice(0, 10));
                 
                 const genres = extractGenres(topArtistsData);
-                displayGenres(genres);
+                displayGenres(genres.slice(0, 5));
                 
                 displayTotalPlays(totalPlays, tracksData.total || 0);
                 
@@ -208,6 +245,7 @@
                 statsContainer.innerHTML = `<div class="error-message"><i class="bi bi-exclamation-triangle"></i> Error al cargar datos. Reconecta.</div>`;
                 loginBtn.style.display = 'flex';
                 shareBtn.style.display = 'none';
+                shareStoryBtn.style.display = 'none';
                 statsContainer.style.display = 'none';
                 localStorage.removeItem('spotify_token');
             }
@@ -223,8 +261,7 @@
             });
             
             const sortedGenres = Array.from(genreMap.entries())
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 20);
+                .sort((a, b) => b[1] - a[1]);
             
             return sortedGenres.map(([genre]) => genre);
         }
@@ -237,12 +274,10 @@
 
         function displayArtists(artists) {
             artistsContainer.innerHTML = artists.map(artist => {
-                const playCount = Math.floor(Math.random() * 500) + 50;
                 return `
                     <div class="artist-card">
                         <img class="artist-img" src="${artist.images?.[1]?.url || artist.images?.[2]?.url || 'https://via.placeholder.com/80?text=Artist'}" alt="${artist.name}">
                         <div class="artist-name">${artist.name}</div>
-                        <div class="artist-plays">${playCount.toLocaleString()} reproducciones</div>
                     </div>
                 `;
             }).join('');
@@ -253,39 +288,87 @@
             totalPlaysSpan.textContent = estimatedTotal.toLocaleString();
         }
 
-        async function shareAsImage() {
-            shareBtn.style.display = 'none';
-            loginBtn.style.display = 'none';
+        function generateStoryHTML() {
+            const top5Artists = topArtistsData.slice(0, 5);
+            const top5Genres = Array.from(document.querySelectorAll('.genre-tag')).slice(0, 5).map(tag => tag.textContent);
+            const totalPlays = totalPlaysSpan.textContent;
             
-            const element = document.querySelector('.stats-container');
-            const originalOverflow = element.style.overflow;
-            element.style.overflow = 'visible';
+            return `
+                <div style="text-align: center;">
+                    <img src="${userProfile?.images?.[0]?.url || 'https://via.placeholder.com/80'}" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #A163E1; margin-bottom: 15px;">
+                    <h2 style="color: white; margin: 0;">${userProfile?.display_name || 'Usuario'}</h2>
+                    <p style="color: #A163E1; margin: 5px 0;">${userTimeP.textContent}</p>
+                    
+                    <div style="background: rgba(161, 99, 225, 0.3); border-radius: 20px; padding: 15px; margin: 20px 0;">
+                        <h3 style="color: #1DB954; margin: 0;">🎵 Reproducciones Totales</h3>
+                        <p style="color: white; font-size: 2rem; margin: 10px 0;">${totalPlays}</p>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h3 style="color: #A163E1;">🎧 Top 5 Artistas</h3>
+                        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                            ${top5Artists.map(artist => `
+                                <div style="text-align: center; width: 70px;">
+                                    <img src="${artist.images?.[2]?.url || 'https://via.placeholder.com/70'}" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid #A163E1;">
+                                    <p style="color: white; font-size: 0.7rem; margin: 5px 0;">${artist.name}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h3 style="color: #A163E1;">🎵 Top 5 Géneros</h3>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;">
+                            ${top5Genres.map(genre => `<span style="background: rgba(161, 99, 225, 0.2); border: 1px solid #A163E1; border-radius: 20px; padding: 5px 12px; color: #A163E1; font-size: 0.7rem;">${genre}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #A163E1;">
+                        <p style="color: #A163E1; margin: 0;">6nandou.github.io</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function shareAsStory() {
+            const storyInner = document.getElementById('story-inner');
+            storyInner.innerHTML = generateStoryHTML();
+            document.getElementById('story-overlay').style.display = 'flex';
+        }
+
+        async function downloadStory() {
+            const storyContent = document.getElementById('story-content');
+            const downloadBtn = document.getElementById('download-story-btn');
+            downloadBtn.style.display = 'none';
             
             try {
-                const canvas = await html2canvas(element, {
+                const canvas = await html2canvas(storyContent, {
                     scale: 2,
-                    backgroundColor: '#000000',
+                    backgroundColor: null,
                     logging: false
                 });
                 
                 const link = document.createElement('a');
-                link.download = 'spotify-resume.png';
+                link.download = 'spotify-story.png';
                 link.href = canvas.toDataURL();
                 link.click();
             } catch (error) {
-                console.error('Error al generar imagen:', error);
-                alert('Error al generar la imagen. Intenta de nuevo.');
+                console.error('Error:', error);
+                alert('Error al generar la imagen');
             }
             
-            element.style.overflow = originalOverflow;
-            shareBtn.style.display = 'flex';
-            if (loginBtn.style.display !== 'none') {
-                loginBtn.style.display = 'flex';
-            }
+            downloadBtn.style.display = 'flex';
+        }
+
+        function closeStory() {
+            document.getElementById('story-overlay').style.display = 'none';
         }
 
         loginBtn.addEventListener('click', loginWithSpotify);
-        shareBtn.addEventListener('click', shareAsImage);
+        shareBtn.addEventListener('click', shareAsStory);
+        shareStoryBtn.addEventListener('click', shareAsStory);
+        
+        document.getElementById('download-story-btn').addEventListener('click', downloadStory);
         
         handleRedirect();
     </script>

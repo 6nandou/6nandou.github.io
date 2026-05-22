@@ -6,29 +6,83 @@
     <title>爱 › Generador QR</title>
     <link rel="icon" href="../assets/katana.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../tools/qr-style.css">
+    <link rel="stylesheet" href="../css/tools-style.css">
 </head>
 <body>
-    <div class="cuadro-central" style="height: fit-content;">
+    <canvas id="tablero-fondo"></canvas>
+
+    <main class="cuadro-central">
+        <a href="../tools/tools.html" class="btn primary"><i class="bi bi-arrow-left"></i> Volver</a>
+
+        <h1>> Generador QR</h1>
+
         <div class="qr-wrapper">
-            <h1>Generador QR</h1>
-            
+                        
             <div class="input-group">
                 <input type="text" id="text-input" placeholder="Pega tu texto o URL aquí..." oninput="generateQR()">
             </div>
 
             <div id="qrcode"></div>
-
-            <a href="../" class="btn-home"><i class="bi bi-arrow-left"></i> Volver al inicio</a>
         </div>
-    </div>
+    </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
     <script>
+        const canvas = document.getElementById('tablero-fondo');
+        const ctx = canvas.getContext('2d');
+
+        let offsetX = 0;
+        const speed = 1.5; 
+        const size = 60;   
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = 'rgba(132, 95, 244, 0.18)';
+            ctx.lineWidth = 2;
+
+            const horizon = canvas.height * 0.4; 
+            const movement = offsetX % size;
+
+            const totalLinesX = Math.ceil(canvas.width / size) + 20;
+            for (let i = -10; i < totalLinesX; i++) {
+                const xOnHorizon = (i * size) - movement;
+                const xOnBottom = ((i - totalLinesX / 2) * size * 4) + (canvas.width / 2) - (movement * 4);
+                
+                ctx.beginPath();
+                ctx.moveTo(xOnHorizon, horizon);
+                ctx.lineTo(xOnBottom, canvas.height);
+                ctx.stroke();
+            }
+
+            const totalLinesY = 20;
+            for (let i = 0; i < totalLinesY; i++) {
+                const ratio = i / totalLinesY;
+                const y = horizon + (canvas.height - horizon) * Math.pow(ratio, 2.5);
+                
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            offsetX = (offsetX + speed) % (size * 100);
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+
         const qrContainer = document.getElementById("qrcode");
         const input = document.getElementById("text-input");
-        
+                
         const qrCode = new QRCode(qrContainer, {
             width: 200,
             height: 200,
@@ -39,7 +93,7 @@
 
         function generateQR() {
             const value = input.value.trim();
-            
+                        
             if (value) {
                 qrCode.clear();
                 qrCode.makeCode(value);

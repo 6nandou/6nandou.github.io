@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>爱 › Herramientas</title>
+    <link rel="icon" href="assets/katana.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/tools-style.css">
+</head>
+<body>
+    <canvas id="tablero-fondo"></canvas>
+
+    <main class="cuadro-central">
+        <a href="../index.html" class="btn primary"><i class="bi bi-arrow-left"></i> Inicio</a>
+
+        <h1>› <span id="nombre-dinamico">Herramientas</span><span class="cursor"></span></h1>
+                
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h2><i class="bi bi-qr-code"></i> Generador QR</h2>
+                <p>Convierte cualquier texto o URL en un código escaneable de forma rápida</p>
+                <a href="./qr-code.html" class="btn-open-tool">Abrir</a>
+            </div>
+
+            <div class="tool-card">
+                <h2><i class="bi bi-spotify"></i> Spotify Resume</h2>
+                <p>Conecta tu cuenta y descubre tus artistas más escuchados y géneros favoritos</p>
+                <a href="./spotify-resume.html" class="btn-open-tool">Abrir</a>
+            </div>
+
+            <div class="tool-card">
+                <h2><i class="bi bi-controller"></i> Gamepad Tester</h2>
+                <p>Prueba la respuesta, botones y sticks de tus mandos en tiempo real</p>
+                <a href="./gamepad-tester.html" class="btn-open-tool">Abrir</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
+<script>
+    const canvas = document.getElementById('tablero-fondo');
+    const ctx = canvas.getContext('2d');
+    
+    let offsetX = 0;
+    const speed = 1.5; 
+    const size = 60;   
+    
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.strokeStyle = 'rgba(132, 95, 244, 0.18)';
+        ctx.lineWidth = 2;
+    
+        const horizon = canvas.height * 0.4; 
+        const movement = offsetX % size;
+    
+        const totalLinesX = Math.ceil(canvas.width / size) + 20;
+        for (let i = -10; i < totalLinesX; i++) {
+            const xOnHorizon = (i * size) - movement;
+            const xOnBottom = ((i - totalLinesX / 2) * size * 4) + (canvas.width / 2) - (movement * 4);
+            
+            ctx.beginPath();
+            ctx.moveTo(xOnHorizon, horizon);
+            ctx.lineTo(xOnBottom, canvas.height);
+            ctx.stroke();
+        }
+    
+        const totalLinesY = 20;
+        for (let i = 0; i < totalLinesY; i++) {
+            const ratio = i / totalLinesY;
+            const y = horizon + (canvas.height - horizon) * Math.pow(ratio, 2.5);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+    
+        offsetX = (offsetX + speed) % (size * 100);
+    
+        requestAnimationFrame(draw);
+    }
+    draw();
+    
+    const nombres = ["Herramientas"];
+    let indiceNombre = 0;
+    let indiceCaracter = 0;
+    let borrando = false;
+    const elementoNombre = document.getElementById('nombre-dinamico');
+    
+    function escribir() {
+        const nombreActual = nombres[indiceNombre];
+        
+        if (borrando) {
+            elementoNombre.textContent = nombreActual.substring(0, indiceCaracter - 1);
+            indiceCaracter--;
+        } else {
+            elementoNombre.textContent = nombreActual.substring(0, indiceCaracter + 1);
+            indiceCaracter++;
+        }
+    
+        let velocidad = borrando ? 100 : 200;
+    
+        if (!borrando && indiceCaracter === nombreActual.length) {
+            borrando = true;
+            velocidad = 2000;
+        } else if (borrando && indiceCaracter === 0) {
+            borrando = false;
+            indiceNombre = (indiceNombre + 1) % nombres.length;
+            velocidad = 500;
+        }
+    
+        setTimeout(escribir, velocidad);
+    }
+    
+    escribir();
+</script>

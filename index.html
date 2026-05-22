@@ -16,42 +16,134 @@
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-
-<a class="btn-tools" href="tools.html">🔧</a>
-
-<div class="cuadro-central">
-    <div class="icono-main"></div>
-    <div class="title">
-        <h1>› Hola, soy Feña ！</h1>
-        <p>⸝⸝ Programador, Estudiante y Lector de Mangas.</p>
-        <p>• Actualmente estudiando Electrónica.</p>
-        <p>• Amo programar, Crear bots y Paginas web, Leer Mangas, Escuchar musica y Terminar juegos en mi tiempo libre.</p>
+    <canvas id="tablero-fondo"></canvas>
+    
+    <div class="btn counter">
+        <i class="bi bi-eye-fill"></i> <span id="visit-count">0</span>
     </div>
-    <img class="divider" src="./assets/divider.png">
-    <div class="contenedor-pl">
-    <br>
-        <iframe class="playlist" src="https://open.spotify.com/embed/playlist/7aa6EnDVW5vDrVeYBRF43C?utm_source=generator" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    
+    <div class="botones-header-derecha">
+        <a class="btn primary">Proyectos</a>
+        <a href="tools.html" class="btn primary">Herramientas</a>
     </div>
-    <div class="redes">
-        <h2>› Redes:</h2>
-        <div class="iconos-contenedor">
-            <div class="fila-iconos">
-            <a class="bi bi-spotify icons" href="https://open.spotify.com/user/ferchamon."></a>
-            <a class="bi bi-instagram icons" href="https://www.instagram.com/6nandou/"></a>
-            <a class="bi bi-steam icons" href="https://steamcommunity.com/profiles/76561199171521484/"></a>
+
+    <main class="cuadro-central">
+        <section class="presentacion">
+            <div class="icono-main"></div>
+            <div class="title">
+                <h1>› Hola, soy <span id="nombre-dinamico">Feña</span><span class="cursor"></span></h1>
+                <p class="subtitulo">⸝⸝ Programador, Electrónico y Lector de Mangas.</p>
+                <p class="detalle">• Actualmente estudiando Electrónica con gran interés en la carrera de Mecatrónica.</p><br>
+                <p class="detalle">• En mi tiempo libre desarrollo proyectos, bots, páginas web, leo mangas, escucho música y completo juegos.</p>
+                <hr>
             </div>
-            <div class="fila-iconos">
-            <a class="bi bi-tiktok icons" href="https://www.tiktok.com/@6nandou"></a>
-            <a class="bi bi-github icons" href="https://github.com/6nandou"></a>
-            <a class="bi bi-twitch icons" href="https://www.twitch.tv/6nandou"></a>
-        </div>
-    </div>
-</div>
+        </section>
 
-<div id="ascci">
-<pre><code>          ／l、             
-        （ﾟ､ ｡ ７         
-          l  ~ヽ       
-          じしf_,)ノ</code></pre></div>
+        <section class="contenido-inferior">
+            <div class="redes">
+                <div class="iconos-contenedor">
+                    <div class="fila-iconos">
+                        <a class="bi bi-spotify icons" href="https://open.spotify.com/user/ferchamon."></a>
+                        <a class="bi bi-instagram icons" href="https://www.instagram.com/6nandou/"></a>
+                        <a class="bi bi-steam icons" href="https://steamcommunity.com/profiles/76561199171521484/"></a>
+                    </div>
+                    <div class="fila-iconos">
+                        <a class="bi bi-tiktok icons" href="https://www.tiktok.com/@6nandou"></a>
+                        <a class="bi bi-github icons" href="https://github.com/6nandou"></a>
+                        <a class="bi bi-twitch icons" href="https://www.twitch.tv/6nandou"></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contenedor-pl">
+                <iframe class="playlist" src="https://open.spotify.com/embed/playlist/7aa6EnDVW5vDrVeYBRF43C?utm_source=generator" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
+<script>
+    const canvas = document.getElementById('tablero-fondo');
+    const ctx = canvas.getContext('2d');
+    
+    let offsetX = 0;
+    const speed = 1.5; 
+    const size = 60;   
+    
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.strokeStyle = 'rgba(132, 95, 244, 0.18)';
+        ctx.lineWidth = 2;
+    
+        const horizon = canvas.height * 0.4; 
+        const movement = offsetX % size;
+    
+        const totalLinesX = Math.ceil(canvas.width / size) + 20;
+        for (let i = -10; i < totalLinesX; i++) {
+            const xOnHorizon = (i * size) - movement;
+            const xOnBottom = ((i - totalLinesX / 2) * size * 4) + (canvas.width / 2) - (movement * 4);
+            
+            ctx.beginPath();
+            ctx.moveTo(xOnHorizon, horizon);
+            ctx.lineTo(xOnBottom, canvas.height);
+            ctx.stroke();
+        }
+    
+        const totalLinesY = 20;
+        for (let i = 0; i < totalLinesY; i++) {
+            const ratio = i / totalLinesY;
+            const y = horizon + (canvas.height - horizon) * Math.pow(ratio, 2.5);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+    
+        offsetX = (offsetX + speed) % (size * 100);
+    
+        requestAnimationFrame(draw);
+    }
+    draw();
+    
+    const nombres = ["Feña", "6nandou"];
+    let indiceNombre = 0;
+    let indiceCaracter = 0;
+    let borrando = false;
+    const elementoNombre = document.getElementById('nombre-dinamico');
+    
+    function escribir() {
+        const nombreActual = nombres[indiceNombre];
+        
+        if (borrando) {
+            elementoNombre.textContent = nombreActual.substring(0, indiceCaracter - 1);
+            indiceCaracter--;
+        } else {
+            elementoNombre.textContent = nombreActual.substring(0, indiceCaracter + 1);
+            indiceCaracter++;
+        }
+    
+        let velocidad = borrando ? 100 : 200;
+    
+        if (!borrando && indiceCaracter === nombreActual.length) {
+            borrando = true;
+            velocidad = 2000;
+        } else if (borrando && indiceCaracter === 0) {
+            borrando = false;
+            indiceNombre = (indiceNombre + 1) % nombres.length;
+            velocidad = 500;
+        }
+    
+        setTimeout(escribir, velocidad);
+    }
+    
+    escribir();
+</script>

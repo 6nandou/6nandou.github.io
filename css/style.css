@@ -443,8 +443,18 @@ hr {
 
     .contenedor-pl {
         width: 100%;
+        max-width: 100%;
         height: 80px;
-        margin-bottom: 0;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .playlist {
+        width: 100%;
+        height: 80px;
+        border-radius: 12px;
     }
 }
 

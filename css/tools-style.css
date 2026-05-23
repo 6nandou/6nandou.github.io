@@ -194,12 +194,11 @@ h1 {
 }
 
 /*=== RESPONSIVE ===*/
-
 @media (max-width: 768px) {
     body {
-        overflow-y: auto;
-        height: auto;
-        min-height: 100vh;
+        height: 100dvh; 
+        min-height: 100dvh;
+        overflow: hidden; 
         display: flex;
         align-items: center;
         justify-content: center;
@@ -213,12 +212,23 @@ h1 {
         transform: none;
         width: calc(100% - 32px);
         max-width: 440px;
-        height: auto;
+        max-height: calc(100dvh - 40px); 
+        overflow-y: auto; 
         padding: 24px;
+    }
+    
+    .cuadro-central::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
     }
 
     .cabecera-principal {
         margin-bottom: 20px;
+        gap: 12px;
+    }
+
+    h1 {
+        font-size: 16px;
     }
 
     .btn.primary {
@@ -226,10 +236,6 @@ h1 {
         font-size: 11px;
     }
     
-    h1 {
-        font-size: 16px;
-    }
-
     .tools-grid {
         grid-template-columns: 1fr;
         gap: 16px;

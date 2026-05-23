@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>爱 › Gamepad Tester</title>
+    <link rel="icon" href="../assets/katana.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/tools-style.css">
 </head>
 <style>
-    /*=== GAMEPAD TESTER ===*/
+/*=== GAMEPAD TESTER ===*/
 
 .tester-layout p, 
 .tester-layout h2, 
@@ -29,6 +31,21 @@
     background-color: #000000;
 }
 
+.cabecera-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap; 
+    width: 100%;
+}
+
+.cabecera-principal h1 {
+    flex-shrink: 1;
+    min-width: 0;
+    word-break: break-word;
+}
+
 .cuadro-central.tester-blur {
     background-color: #0000004d;
     backdrop-filter: blur(15px);
@@ -43,14 +60,15 @@
     justify-content: center;
     height: 100%;
     width: 100%;
-    padding: 20px;
+    padding: 0;
 }
 
 .tester-container {
     display: none;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 20px;
     width: 100%;
+    align-items: center;
 }
 
 .data-panel {
@@ -68,8 +86,9 @@
     background-color: #ffffff0d;
     border: 1px solid rgba(132, 95, 244, 0.25);
     border-radius: 6px;
-    padding: 4px;
-    font-size: 10px;
+    padding: 6px 4px;
+    font-size: 11px;
+    text-align: center;
     color: #ffffffb3;
 }
 
@@ -82,11 +101,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 #gamepad-svg {
     width: 100%;
-    max-width: 350px;
+    max-width: 340px;
+    height: auto;
 }
 
 .svg-body {
@@ -118,15 +139,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     margin-top: 15px;
+    width: 100%;
 }
 
 .btn-action {
     background: transparent;
     color: rgba(132, 95, 244, 0.75);
     border: 2px solid rgba(132, 95, 244, 0.75);
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
     font-family: 'Source Code Pro';
@@ -145,7 +167,7 @@
     align-items: center;
     gap: 8px;
     color: rgba(132, 95, 244, 0.75);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
 }
 
 .switch {
@@ -192,45 +214,22 @@ input:checked + .slider:before {
     transform: translateX(16px);
 }
 
-.tester-layout .btn-home {
-    margin-top: 20px;
-    color: rgba(132, 95, 244, 0.75);
-    text-decoration: none;
-    font-size: 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.3s ease;
-}
-
-.tester-layout .btn-home:hover {
-    color: #ffffff;
-    transform: translateX(-3px);
+/*=== RESPONSIVE ===*/
+@media (min-width: 769px) {
+    .tester-container {
+        grid-template-columns: 1.2fr 1fr; 
+    }
 }
 
 @media (max-width: 768px) {
-    .tester-body-bg {
-        background-position: top;
-        background-size: auto;
-    }
-
-    .tester-layout h2 {
-        font-size: 12px;
-        margin-bottom: 6px;
-    }
-
-    .cuadro-central.tester-blur {
-        width: 20rem;
-        top: 35%;
-    }
-
     .tester-container {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-columns: 1fr; 
+        gap: 15px;
     }
 
     .actions-row {
         grid-column: span 1;
+        margin-top: 5px;
     }
 
     .button-grid {
@@ -238,24 +237,83 @@ input:checked + .slider:before {
     }
 
     .btn-stat {
+        font-size: 9px;
+        padding: 4px 2px;
+    }
+    
+    #gamepad-svg {
+        max-width: 280px;
+    }
+}
+
+@media (max-width: 340px) {
+    .cabecera-principal {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn-stat {
         font-size: 8px;
-        padding: 2px;
+    }
+
+    #gamepad-svg {
+        max-width: 240px;
+    }
+
+    .actions-row {
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
 @media (max-width: 320px) {
-    .cuadro-central.tester-blur {
-        width: 18rem;
-        top: 35%;
+    .cabecera-principal {
+        flex-direction: row !important; 
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
     }
 
-    .tester-layout h1, 
-    .tester-layout h2 {
-        font-size: 10px;
+    h1 {
+        font-size: 14px !important; 
+    }
+
+    .btn.primary {
+        padding: 4px 10px !important;
+        font-size: 10px !important;
+        border-radius: 8px;
+    }
+
+    .cuadro-central {
+        padding: 16px !important; 
+        width: calc(100% - 16px) !important;
+    }
+
+    #gp-name {
+        font-size: 13px !important;
+    }
+
+    .button-grid {
+        gap: 4px !important;
     }
 
     .btn-stat {
-        font-size: 7px;
+        font-size: 7.5px !important;
+        padding: 3px 1px !important;
+    }
+
+    .actions-row {
+        gap: 12px !important;
+    }
+
+    .btn-action {
+        padding: 6px 12px !important;
+        font-size: 11px !important;
+    }
+
+    .toggle-container {
+        font-size: 0.65rem !important;
     }
 }
 </style>

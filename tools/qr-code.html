@@ -52,29 +52,7 @@ input:focus {
 }
 
 @media (max-width: 768px) {
-
-    /*testear 
-    .btn.primary {
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    border: 1px solid rgba(132, 95, 244, .45);
-    background: linear-gradient(180deg, rgba(132, 95, 244, .22), rgba(132, 95, 244, .08));
-    color: #eaeaea;
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    z-index: 10;
-    }*/
-    
+   
     input {
         padding: 10px;
         font-size: 12px;
@@ -83,15 +61,12 @@ input:focus {
 </style>
 <body>
     <canvas id="tablero-fondo"></canvas>
-
     <main class="cuadro-central">
         <header class="cabecera-principal">
             <h1>> Generador QR</h1>
             <a href="../tools/tools.html" class="btn primary"><i class="bi bi-arrow-left"></i> Volver</a>
         </header>
-
-        <div class="qr-wrapper">
-                        
+        <div class="qr-wrapper">    
             <div class="input-group">
                 <input type="text" id="text-input" placeholder="Pega tu texto o URL aquí..." oninput="generateQR()">
             </div>
@@ -99,7 +74,6 @@ input:focus {
             <div id="qrcode"></div>
         </div>
     </main>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         const canvas = document.getElementById('tablero-fondo');

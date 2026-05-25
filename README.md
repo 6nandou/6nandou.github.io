@@ -1,5 +1,6 @@
 # 📂 Historial de Versiones - Feñalandia
 <hr>
+
 ## Versión 2024 - 2026
 
 <p align="center">

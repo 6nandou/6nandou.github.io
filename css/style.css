@@ -311,19 +311,15 @@ hr {
 
 @media screen and (max-width: 425px) {
     .botones-header-derecha {
-        position: absolute;
-        top: -47px;
+        position: fixed;
+        top: calc(50vh - 35vh - 15px - 32px);
         left: 50%;
         transform: translateX(-50%);
-        right: auto;
-        bottom: auto;
         gap: 12px;
         display: flex;
-        flex-direction: row;
         align-items: center;
         justify-content: center;
         height: 32px;
-        width: max-content;
         z-index: 10;
     }
 
@@ -336,12 +332,10 @@ hr {
     }
 
     .btn.counter {
-        position: absolute;
-        top: calc(100% + 15px);
+        position: fixed;
+        top: calc(50vh + 35vh + 15px);
         left: 50%;
         transform: translateX(-50%);
-        right: auto;
-        bottom: auto;
         z-index: 10;
     }
 
@@ -352,11 +346,10 @@ hr {
         transform: translate(-50%, -50%);
         width: 90vw;
         padding: 20px;
-        height: auto;
-        max-height: 72vh; 
+        height: 70vh;
+        max-height: 70vh; 
         justify-content: flex-start;
         gap: 0;
-        z-index: 1;
     }
 
     .presentacion {
@@ -472,6 +465,16 @@ hr {
 @media screen and (max-width: 375px) {
     .cuadro-central {
         padding: 16px;
+        height: 68vh;
+        max-height: 68vh;
+    }
+
+    .botones-header-derecha {
+        top: calc(50vh - 34vh - 15px - 32px);
+    }
+    
+    .btn.counter {
+        top: calc(50vh + 34vh + 15px);
     }
 
     .presentacion {
@@ -522,6 +525,16 @@ hr {
 
     .cuadro-central {
         padding: 12px;
+        height: 66vh;
+        max-height: 66vh;
+    }
+
+    .botones-header-derecha {
+        top: calc(50vh - 33vh - 15px - 32px);
+    }
+    
+    .btn.counter {
+        top: calc(50vh + 33vh + 15px);
     }
 
     .presentacion {

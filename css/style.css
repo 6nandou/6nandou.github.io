@@ -310,28 +310,21 @@ hr {
 }
 
 @media screen and (max-width: 425px) {
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        padding: 40px 0;
-        gap: 15px; 
-    }
-
     .botones-header-derecha {
-        position: static;
-        transform: none;
+        position: absolute;
+        top: -47px;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        bottom: auto;
+        gap: 12px;
         display: flex;
         flex-direction: row;
-        gap: 12px;
         align-items: center;
         justify-content: center;
         height: 32px;
         width: max-content;
         z-index: 10;
-        order: 1;
     }
 
     .btn.primary, .btn.counter {
@@ -342,9 +335,21 @@ hr {
         height: 32px;
     }
 
+    .btn.counter {
+        position: absolute;
+        top: calc(100% + 15px);
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        bottom: auto;
+        z-index: 10;
+    }
+
     .cuadro-central {
-        position: static;
-        transform: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 90vw;
         padding: 20px;
         height: auto;
@@ -352,14 +357,6 @@ hr {
         justify-content: flex-start;
         gap: 0;
         z-index: 1;
-        order: 2;
-    }
-
-    .btn.counter {
-        position: static;
-        transform: none;
-        z-index: 10;
-        order: 3;
     }
 
     .presentacion {
@@ -475,16 +472,6 @@ hr {
 @media screen and (max-width: 375px) {
     .cuadro-central {
         padding: 16px;
-        height: 68vh;
-        max-height: 68vh;
-    }
-
-    .botones-header-derecha {
-        top: calc(50vh - 34vh - 15px - 32px);
-    }
-    
-    .btn.counter {
-        top: calc(50vh + 34vh + 15px);
     }
 
     .presentacion {
@@ -535,16 +522,6 @@ hr {
 
     .cuadro-central {
         padding: 12px;
-        height: 66vh;
-        max-height: 66vh;
-    }
-
-    .botones-header-derecha {
-        top: calc(50vh - 33vh - 15px - 32px);
-    }
-    
-    .btn.counter {
-        top: calc(50vh + 33vh + 15px);
     }
 
     .presentacion {

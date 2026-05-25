@@ -316,9 +316,9 @@ hr {
 @media screen and (max-width: 425px) {
     .botones-header-derecha {
         position: fixed;
-        top: 0;
+        top: 12%;
         left: 50%;
-        transform: translate(-50%, 230%);
+        transform: translate(-50%);
         display: flex;
         gap: 12px;
         align-items: center;
@@ -463,9 +463,9 @@ hr {
 
     .botones-header-derecha {
         position: fixed;
-        top: 0;
+        top: 12%;
         left: 50%;
-        transform: translate(-50%, 230%);
+        transform: translate(-50%);
         display: flex;
         gap: 12px;
         align-items: center;
@@ -521,15 +521,11 @@ hr {
 
     .botones-header-derecha {
         position: fixed;
-        top: 0;
+        top: 12%;
         left: 50%;
-        transform: translate(-50%, 230%);
-        display: flex;
+        transform: translate(-50%);
         gap: 12px;
         align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: auto;
         z-index: 10;
     }
 

@@ -212,18 +212,28 @@ h1 {
         transform: none;
         width: calc(100% - 32px);
         max-width: 440px;
-        max-height: calc(100dvh - 40px); 
+        height: auto;
         padding: 24px;
-        display: block; 
-        overflow-y: auto;
-        overflow-x: hidden;
+        margin: auto;
     }
-    
+
     .cuadro-central::before {
+        content: "";
         position: absolute;
-        inset: -1px; 
-        height: calc(100% + 2px);
-        width: calc(100% + 2px);
+        top: -1px;
+        bottom: -1px;
+        left: -1px;
+        right: -1px;
+        background: linear-gradient(135deg, #845ff4, #60468F);
+        border-radius: 20px;
+        z-index: -1;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        padding: 1px;
+        pointer-events: none;
+        box-sizing: border-box;
     }
     
     .cuadro-central::-webkit-scrollbar {
@@ -233,7 +243,11 @@ h1 {
 
     .cabecera-principal {
         margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         gap: 12px;
+        width: 100%;
     }
 
     h1 {
